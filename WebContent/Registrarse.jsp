@@ -24,6 +24,7 @@
 </script>
 
 
+
 <h1 align=center>Registrar Usuario</h1>
 <!-- FORMULARIO DE REGISTRO -->
  <form action="RegistrarUsuario" method="post">

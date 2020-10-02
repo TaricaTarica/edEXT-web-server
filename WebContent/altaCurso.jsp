@@ -57,6 +57,9 @@
     <input name="url" type="text" class="form-control" id="InputURL">
   </div>
   <button type="submit" class="btn btn-primary">Continuar</button>
+  <%if(request.getAttribute("error") != null){%>
+  		<div class="alert alert-danger">${error}</div>
+  <%}%>
 </form>
 <%@include file="footer.jsp"%>
 </body>

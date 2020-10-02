@@ -63,18 +63,25 @@ public class AltaCurso extends HttpServlet {
 		
 		try {
 			iconCur.AltaCurso(curso, instituto);
-			for(int i = 0; i<previas.length; i++) {
-				iconCur.agregarPrevia(previas[i], instituto, curso.getNombre());
+			if(previas != null){
+				for(int i = 0; i<previas.length; i++) {
+					iconCur.agregarPrevia(previas[i], instituto, curso.getNombre());
+				}
 			}
-			for(int i =0; i< categorias.length; i++) {
-				iconCur.agregarCategorias(categorias[i], instituto, curso.getNombre());
+			if(categorias != null){
+				for(int i = 0; i< categorias.length; i++) {
+					iconCur.agregarCategorias(categorias[i], instituto, curso.getNombre());
+				}
+				
 			}
 			request.setAttribute("mensaje", "Se ha registrado correctamente el curso " + nombre );
 			rd = request.getRequestDispatcher("/notificacion.jsp");
 			rd.forward(request, response);
 		}
 		catch(CursoRepetido_Exception e) {
-			throw new ServletException(e.getMessage());
+			request.setAttribute("error", e.getMessage());
+			rd = request.getRequestDispatcher("/altaCurso.jsp");
+			rd.forward(request, response);
 		}
 		
 	}

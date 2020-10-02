@@ -14,7 +14,7 @@
 	</properties>
   
   <dependencies>
-  <!-- mvn install:install-file -Dfile=edext-logica.jar -DgroupId=com.edext -DartifactId=edext -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true -->
+  <!-- mvn install:install-file -Dfile=edext.jar -DgroupId=com.edext -DartifactId=edext -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true -->
   	<dependency>
   	  <groupId>com.edext</groupId>
   	  <artifactId>edext</artifactId>

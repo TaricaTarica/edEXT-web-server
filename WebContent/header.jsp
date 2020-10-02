@@ -1,4 +1,3 @@
-<%@page import="interfaces.Fabrica"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
@@ -15,6 +14,18 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+	<!--  jQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+	<!-- Bootstrap Date-Picker Plugin -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+
 </head>
 <body>
 <%
@@ -40,6 +51,9 @@
       				<li class="nav-item">
         				<a class="nav-link" href="inicioSesion.jsp">Iniciar Sesion</a>
       				</li>
+      				<li class="nav-item">
+        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
+      					</li>
     			</ul>
   			</div>
 		</nav>
@@ -58,6 +72,9 @@
     				<ul class="navbar-nav">
       					<li class="nav-item">
         					<a class="nav-link" href="index.jsp">Home</a>
+      					</li>
+      					<li class="nav-item">
+        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
       					</li>
      				 	<li class="nav-item">
         					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
@@ -79,6 +96,9 @@
       					</li>
       					<li class="nav-item">
         					<a class="nav-link" href="altaCurso.jsp">Alta de Curso</a>
+      					</li>
+      					<li class="nav-item">
+        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
       					</li>
       					<li class="nav-item">
         					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>

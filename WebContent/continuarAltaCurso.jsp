@@ -55,6 +55,7 @@
     	</select>
   	</div>
 	<button type="submit" class="btn btn-primary">Confirmar</button>
+	
 </form>
 <%@include file="footer.jsp"%>
 </body>
