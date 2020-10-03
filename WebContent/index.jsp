@@ -20,8 +20,8 @@
     	<a href="Registrarse.jsp" class="card-link">Registrarse</a>
     <%} %>
   </div>
-
 </div>
+<div class="card mb-4">
 <div class="card border-secondary" style="width: 15rem;">
   <div algin="center" class="card-header">
     Institutos
@@ -54,7 +54,7 @@
       }%>
   </ul>
 </div>
-
+</div>
 
 <%@include file="footer.jsp"%>
 </body>

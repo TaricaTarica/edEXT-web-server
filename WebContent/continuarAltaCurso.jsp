@@ -19,8 +19,8 @@
 	String creditos = request.getParameter("creditos");
 	String url = request.getParameter("url"); 
 %>
-
-<h1 align=center>Alta de Curso</h1>
+<br>
+<div class = container mt-4>
 <form action="AltaCurso" method="post">
 	<input type="hidden" name="instituto" value="<%=instituto%>">
 	<input type="hidden" name="nombre" value="<%=nombre%>">
@@ -29,6 +29,11 @@
 	<input type="hidden" name="canthoras" value="<%=cantHoras%>">
 	<input type="hidden" name="creditos" value="<%=creditos%>">
 	<input type="hidden" name="url" value="<%=url%>">
+	<div class = "card">	
+		<div class = "card-header">
+			<h4>Alta de Curso</h4>
+		</div>
+  <div class = "card-body">
 	<div class="form-group">
     	<label for="exampleFormControlSelect2">Previas</label>
     	<select name="previas[]" multiple class="form-control" id="exampleFormControlSelect2">
@@ -54,9 +59,17 @@
       			}%>
     	</select>
   	</div>
-	<button type="submit" class="btn btn-primary">Confirmar</button>
-	
+  	
+    	<label>Imagen</label>
+    	<input name="img_curso" type="file" accept="image/jpg">
+  	
+  	</div>
+  	<div class = "card-footer">
+		<button type="submit" class="btn btn-primary">Confirmar</button>
+	</div>
+</div>	
 </form>
+</div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

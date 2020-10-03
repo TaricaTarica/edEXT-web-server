@@ -10,8 +10,13 @@
 <title>Consultar Curso</title>
 </head>
 <body>
+<br>
+<div class = container mt-4>
 <form action="cargarConsultaCurso" method="post">
 <div class="card">
+	<div class = "card-header">
+			<h4>Consultar Curso</h4>
+		</div>
   <div class="card-body">
     <h5 class="card-title">Filtro</h5>
 	<div class="form-check">
@@ -118,6 +123,7 @@
 	  }%>
 	   </div>
 	</div>
+</div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

@@ -7,8 +7,14 @@
 <title>Iniciar Sesion</title>
 </head>
 <body>
-<h1 align=center>Iniciar Sesion</h1>
+<br>
+<div class = container mt-4>
 <form action="InicioSesion" method="post">
+  <div class = "card">	
+		<div class = "card-header">
+			<h4>Iniciar Sesion</h4>
+		</div>
+  <div class = "card-body">
   <div class="form-group">
     <label for="InputNickname">Nickname</label>
     <input name = "nickname" type="text" class="form-control" id="InputNickname" aria-describedby="nicknameHelp">
@@ -17,12 +23,18 @@
     <label for="InputContrasenia">Contraseña</label>
     <input name = "contrasenia" type="password" class="form-control" id="InputContrasenia">
   </div>
-  <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+  </div>
+  <div class = "card-footer">
+  	<button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+  	  <small id="registrarseHelp" class="form-text text-muted">¿No tienes cuenta? <a href= Registrarse.jsp>Regístrate</a></small>
+  </div>
   <%if(request.getAttribute("error") != null){%>
   <div class="alert alert-danger">${error}</div>
   <%}%>
-  <small id="registrarseHelp" class="form-text text-muted">¿No tienes cuenta? <a href= Registrarse.jsp>Regístrate</a></small>
+
+</div>
 </form>
+</div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

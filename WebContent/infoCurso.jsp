@@ -12,7 +12,7 @@
 <title>Información de Curso</title>
 </head>
 <body>
-
+<br>
 <%
 if(request.getParameter ("nombreInstituto") != null){ %>
 <%
@@ -30,7 +30,7 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 <div class="card mb-3" >
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="..." class="card-img" alt="...">
+      <img src="<%=infoCurso.getImg()%>" class="card-img" alt="imgenCurso">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -106,7 +106,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
 <div class="card mb-3" >
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="..." class="card-img" alt="...">
+      <img src="<%=infoCurso.getImg()%>" class="card-img" alt="imgenCurso">
     </div>
     <div class="col-md-8">
       <div class="card-body">

@@ -9,8 +9,14 @@
 <title>Alta de Curso</title>
 </head>
 <body>
-<h1 align=center>Alta de Curso</h1>
+<br>
+<div class = container mt-4>
 <form action="continuarAltaCurso.jsp" method="post">
+  <div class = "card">	
+		<div class = "card-header">
+			<h4>Alta de Curso</h4>
+		</div>
+  <div class = "card-body">
   <div id = "institutos" class="form-group">
     		<label for="exampleFormControlSelect1">Instituto</label>
     			<select name ="cb_Instituto" class="form-control" id="instituto">
@@ -56,11 +62,16 @@
     <label for="InputURL">URL</label>
     <input name="url" type="text" class="form-control" id="InputURL">
   </div>
-  <button type="submit" class="btn btn-primary">Continuar</button>
+  </div>
+  <div class = "card-footer">
+  	<button type="submit" class="btn btn-primary">Continuar</button>
+  </div>
   <%if(request.getAttribute("error") != null){%>
   		<div class="alert alert-danger">${error}</div>
   <%}%>
+ </div>
 </form>
+</div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

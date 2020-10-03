@@ -25,9 +25,14 @@
 
 
 
-<h1 align=center>Registrar Usuario</h1>
+<div class = container mt-4>
 <!-- FORMULARIO DE REGISTRO -->
  <form action="RegistrarUsuario" method="post">
+	<div class = "card">	
+		<div class = "card-header">
+			<h4>Registrar Usuario</h4>
+		</div>
+		<div class = "card-body">
 		<div class="form-group">
 			<label for="InputNickname">Nickname</label> <input type="text" name="nickname"
 				class="form-control" id="InputNickname"
@@ -85,9 +90,13 @@
      		 	
     			</select>
   		</div>
-		<button type="submit" class="btn btn-primary">Registrarse</button>
+  		</div>
+  		<div class = "card-footer">
+			<button type="submit" class="btn btn-primary">Registrarse</button>
+		</div>
+</div>
 </form>
-
+</div>
  
 <%@include file="footer.jsp"%>
 </body>
