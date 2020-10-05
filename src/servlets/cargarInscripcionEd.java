@@ -10,30 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/cargarConsultaCurso")
-public class cargarConsultaCurso extends HttpServlet {
+@WebServlet("/cargarInscripcionEd")
+public class cargarInscripcionEd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-    public cargarConsultaCurso() {
+    public cargarInscripcionEd() {
         super();
-       
+        
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String selected = request.getParameter("exampleRadios");
-		RequestDispatcher rd;
-	  	if(selected.equals("instituto")){	
-		  	request.setAttribute("inst", request.getParameter("cb_Instituto"));
-		  	rd = request.getRequestDispatcher("/consultaCurso.jsp");
-			rd.forward(request, response);
-	  	}
-	  	else if(selected.equals("categoria")){
-	  		request.setAttribute("cate", request.getParameter("cb_Categoria"));
-		  	rd = request.getRequestDispatcher("/consultaCurso.jsp");
-			rd.forward(request, response);
-	  	}
+		
 	}
 
 	
@@ -42,12 +31,12 @@ public class cargarConsultaCurso extends HttpServlet {
 		RequestDispatcher rd;
 	  	if(selected.equals("instituto")){	
 		  	request.setAttribute("inst", request.getParameter("cb_Instituto"));
-		  	rd = request.getRequestDispatcher("/consultaCurso.jsp");
+		  	rd = request.getRequestDispatcher("/inscribirseEdicion.jsp");
 			rd.forward(request, response);
 	  	}
 	  	else if(selected.equals("categoria")){
 	  		request.setAttribute("cate", request.getParameter("cb_Categoria"));
-		  	rd = request.getRequestDispatcher("/consultaCurso.jsp");
+		  	rd = request.getRequestDispatcher("/inscribirseEdicion.jsp");
 			rd.forward(request, response);
 	  	}
 	}

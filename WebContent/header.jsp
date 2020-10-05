@@ -25,7 +25,6 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-
 </head>
 <body>
 <%
@@ -41,7 +40,7 @@
     			<span class="navbar-toggler-icon"></span>
   			</button>
   			<div class="collapse navbar-collapse" id="navbarNav">
-    			<ul class="navbar-nav">
+    			<ul class="navbar-nav mr-auto">
       				<li class="nav-item">
         				<a class="nav-link" href="index.jsp">Home</a>
       				</li>
@@ -53,8 +52,12 @@
       				</li>
       				<li class="nav-item">
         					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-      					</li>
+      				</li>
     			</ul>
+    			<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
+     				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">
+      					<button class="btn btn-secondary" type="submit">Buscar</button>
+    			</form>
   			</div>
 		</nav>
 <%} 
@@ -69,17 +72,24 @@
     				<span class="navbar-toggler-icon"></span>
   				</button>
   				<div class="collapse navbar-collapse" id="navbarNav">
-    				<ul class="navbar-nav">
+    				<ul class="navbar-nav mr-auto">
       					<li class="nav-item">
         					<a class="nav-link" href="index.jsp">Home</a>
       					</li>
       					<li class="nav-item">
         					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
       					</li>
+      					<li class="nav-item">
+        					<a class="nav-link" href="inscribirseEdicion.jsp">Inscribirse a Edición</a>
+      					</li>
      				 	<li class="nav-item">
         					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
       					</li>
     				</ul>
+    				<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
+     				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">
+      					<button class="btn btn-secondary" type="submit">Buscar</button>
+    				</form>
   				</div>
 			</nav>
 <%	}
@@ -90,7 +100,7 @@
    					 <span class="navbar-toggler-icon"></span>
   				</button>
   				<div class="collapse navbar-collapse" id="navbarNav">
-    				<ul class="navbar-nav">
+    				<ul class="navbar-nav mr-auto">
       					<li class="nav-item">
         					<a class="nav-link" href="index.jsp">Home</a>
       					</li>
@@ -104,6 +114,10 @@
         					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
       					</li>
     				</ul>
+    				<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
+     				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">
+      					<button class="btn btn-secondary" type="submit">Buscar</button>
+    				</form>
   				</div>
 			</nav>		
   <% 

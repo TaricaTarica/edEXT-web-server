@@ -13,6 +13,7 @@
 </head>
 <body>
 <br>
+<div class = container mt-4>
 <%
 if(request.getParameter ("nombreInstituto") != null){ %>
 <%
@@ -55,37 +56,63 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 </div>
 <%
 	String[] programas = iconCur.listarProgramasAux(nombreInstituto, nombreCurso);
-%>
-
- 
-<div class="card">
-  <div class="card-header">
-    <h5> Programas de Formación</h5>
-  </div>
-  <div class="card-body">
-  	<%for(int i = 0; i<programas.length; i++){ %>
-  		<div class="list-group">
-  		<a href="index.jsp" class="list-group-item list-group-item-action"><%=programas[i]%></a>	
-		</div>
-	<%}%>
-  </div>
-</div>
-<%
 	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
 %>
 
-<div class="card">
-  <div class="card-header">
-    <h5>Ediciones</h5>
-  </div>
-  <div class="card-body">
-  	<%for(int i = 0; i<ediciones.length; i++){ %>
-    <div class="list-group">
-  		<a href="#" class="list-group-item list-group-item-action"><%=ediciones[i]%> </a>	
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Programas de Formación</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Ediciones</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  	<div class="card">
+  		<% 
+  			if(programas.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>Programas de Formación</i> asociados.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<programas.length; i++){ %>
+  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=programas[i]%></p>
+  						<a href="#" class="btn btn-primary">Ver información</a>	
+					</li>
+		<%		}
+  			}
+		%>
 	</div>
-	<%}%>
   </div>
+ <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+ 	<div class="card">
+  		<div class="card-body">
+  		<% 
+  			if(ediciones.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>Ediciones</i> asociadas.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<ediciones.length; i++){ %>
+  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=ediciones[i]%></p>
+  						<a href="#" class="btn btn-primary">Ver información</a>	
+					</li>
+		<%		}
+  			}
+		%>
+  		</div>
+	</div>
 </div>
+</div> 
+
 <%
 }
 if(request.getParameter ("nombreCategoria") != null){%>
@@ -129,43 +156,72 @@ if(request.getParameter ("nombreCategoria") != null){%>
     </div>
   </div>
 </div>
+
 <%
 	String[] programas = iconCur.listarProgramasAux(nombreInstituto, nombreCurso);
-%>
-
- 
-<div class="card">
-  <div class="card-header">
-    <h5> Programas de Formación</h5>
-  </div>
-  <div class="card-body">
-  	<%for(int i = 0; i<programas.length; i++){ %>
-  		<div class="list-group">
-  		<a href="index.jsp" class="list-group-item list-group-item-action"><%=programas[i]%></a>	
-		</div>
-	<%}%>
-  </div>
-</div>
-<%
 	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
-%>
+%> 
 
-<div class="card">
-  <div class="card-header">
-    <h5>Ediciones</h5>
-  </div>
-  <div class="card-body">
-  	<%for(int i = 0; i<ediciones.length; i++){ %>
-    <div class="list-group">
-  		<a href="#" class="list-group-item list-group-item-action"><%=ediciones[i]%> </a>	
+<!--  PRUEBA VENTANAS  -->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Programas de Formación</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Ediciones</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  	<div class="card">
+  		<div class="card-body">
+  		<% 
+  			if(programas.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>Programas de Formación</i> asociados.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<programas.length; i++){ %>
+  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=programas[i]%></p>
+  						<a href="#" class="btn btn-primary">Ver información</a>	
+					</li>
+		<%		}
+  			}
+		%>
+  		</div>
 	</div>
-	<%}%>
   </div>
+ <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+ 	<div class="card">
+  		<div class="card-body">
+  		<% 
+  			if(ediciones.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>Ediciones</i> asociadas.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<ediciones.length; i++){ %>
+    				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=ediciones[i]%></p>
+  						<a href="#" class="btn btn-primary">Ver información</a>	
+					</li>
+		<%		}
+  			}
+		%>
+  		</div>
+	</div>
+</div>
 </div>
 
-
-
+<!-- FIN PRUEBA -->
 <%} %>
+</div>
 <%@include file="footer.jsp"%>
 </body>
 </html>

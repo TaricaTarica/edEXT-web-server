@@ -9,11 +9,15 @@
 <title>Login exitoso</title>
 </head>
 <body>
-<div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">¡Inicio de sesion exitoso!</h4>
-  <% //HttpSession sesion = request.getSession();
-  		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario"); %>
-  <p>Hola <%=usr.getNombre()%>, bienvenide a edEXT.</p>
+<br>
+<div class = container mt-4>
+	<div class="alert alert-success" role="alert">
+  		<h4 class="alert-heading">¡Inicio de sesion exitoso!</h4>
+  			<%
+  			DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+  			%>
+  			<p>Hola <%=usr.getNombre()%>, bienvenide a edEXT.</p>
+	</div>
 </div>
 <%@include file="footer.jsp"%>
 </body>

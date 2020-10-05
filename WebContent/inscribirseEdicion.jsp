@@ -6,13 +6,12 @@
 <html>
 <head>
 <%@include file="header.jsp"%>
-
-<title>Consultar Curso</title>
+<title>Inscribirse a Edición</title>
 </head>
 <body>
 <br>
 <div class = container mt-4>
-	<form action="cargarConsultaCurso" method="post">
+	<form action="cargarInscripcionEd" method="post">
 		<div class="card">
 			<div class = "card-header">
 				<h4>Consultar Curso</h4>
@@ -94,8 +93,8 @@
 	   String[] cursos = iconCur.listarCursos(nombreInstituto);	
 		//<input type="hidden" name="instituto" value="instituto">
 		for(i = 0; i<cursos.length; i++){%>
-				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursos[i]%></p>
-  					<a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=cursos[i]%>" class="btn btn-primary">Ver información</a>
+				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursos[i]%></p> 
+  					<a href="continuarInscripcionEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=cursos[i]%>" class="btn btn-primary">Ver ediciones</a>
 				</li>	
 	<% }%>
 			</div>
@@ -110,8 +109,8 @@
 	<% String nombreCategoria = (String) request.getAttribute("cate"); 
 	   String[] cursosCat = iconCur.listarCursosCategoria(nombreCategoria);	
 		for(i = 0; i<cursosCat.length; i++){%>
-				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursosCat[i]%></p>
-  					<a href="infoCurso.jsp?nombreCategoria=<%=nombreCategoria%>&nombreCurso=<%=cursosCat[i]%>" class="btn btn-primary">Ver información</a>
+				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursosCat[i]%></p> 
+  					<a href="continuarInscripcionEd.jsp?nombreCategoria=<%=nombreCategoria%>&nombreCurso=<%=cursosCat[i]%>" class="btn btn-primary">Ver ediciones</a>
 				</li>	
 	<%}%>
 			</div>

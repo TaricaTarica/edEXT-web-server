@@ -24,7 +24,7 @@
 </script>
 
 
-
+<br>
 <div class = container mt-4>
 <!-- FORMULARIO DE REGISTRO -->
  <form action="RegistrarUsuario" method="post">
