@@ -74,7 +74,9 @@ public class AltaCurso extends HttpServlet {
 		RequestDispatcher rd;
 		
 		try {
-			Files.copy(origen.toPath(), destino.toPath()); //copio la imagen del destino al origen.
+			if(!imgCurso.isEmpty()){
+				Files.copy(origen.toPath(), destino.toPath()); //copio la imagen del destino al origen.
+			}
 			iconCur.AltaCurso(curso, instituto);
 			if(previas != null){
 				for(int i = 0; i<previas.length; i++) {

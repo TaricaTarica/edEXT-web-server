@@ -95,7 +95,7 @@
 		//<input type="hidden" name="instituto" value="instituto">
 		for(i = 0; i<cursos.length; i++){%>
 				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursos[i]%></p>
-  					<a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=cursos[i]%>" class="btn btn-primary">Ver información</a>
+  					<a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=cursos[i]%>" class="btn btn-primary">Ver información</a>	
 				</li>	
 	<% }%>
 			</div>

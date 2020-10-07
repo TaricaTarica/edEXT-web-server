@@ -11,6 +11,9 @@
 <body>
 <br>
 <div class = container mt-4>
+<%if(request.getAttribute("error") != null){%>
+  		<div class="alert alert-danger">${error}</div>
+<%}%>
 <form action="continuarAltaCurso.jsp" method="post">
   <div class = "card">	
 		<div class = "card-header">
@@ -65,10 +68,7 @@
   </div>
   <div class = "card-footer">
   	<button type="submit" class="btn btn-primary">Continuar</button>
-  </div>
-  <%if(request.getAttribute("error") != null){%>
-  		<div class="alert alert-danger">${error}</div>
-  <%}%>
+  </div> 
  </div>
 </form>
 </div>

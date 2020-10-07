@@ -34,7 +34,7 @@
 	//}*
 	
 	if(sesion.getAttribute("usuario") == null){%>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-sm navbar-light bg-light">
   			<a class="navbar-brand" href="index.jsp">edEXT /Visitante</a>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     			<span class="navbar-toggler-icon"></span>
@@ -106,6 +106,10 @@
       					</li>
       					<li class="nav-item">
         					<a class="nav-link" href="altaCurso.jsp">Alta de Curso</a>
+      					</li>
+      					</li>
+      					<li class="nav-item">
+        						<a class="nav-link" href="altadeEdiciondeCurso.jsp">Alta de Edición</a>
       					</li>
       					<li class="nav-item">
         					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>

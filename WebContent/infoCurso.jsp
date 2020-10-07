@@ -31,7 +31,7 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 <div class="card mb-3" >
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="<%=infoCurso.getImg()%>" class="card-img" alt="imgenCurso">
+      <img src="imagenes/imgCursos/<%=infoCurso.getNombre()%>.jpg" class="card-img" alt="imgenCurso">
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -103,7 +103,7 @@ if(request.getParameter ("nombreInstituto") != null){ %>
   			else{
   				for(int i = 0; i<ediciones.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=ediciones[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
+  						<a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=ediciones[i]%>" class="btn btn-primary">Ver información</a>	
 					</li>
 		<%		}
   			}
@@ -209,7 +209,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
   			else{
   				for(int i = 0; i<ediciones.length; i++){ %>
     				<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=ediciones[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
+  						<a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=ediciones[i]%>" class="btn btn-primary">Ver información</a>	
 					</li>
 		<%		}
   			}
