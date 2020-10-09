@@ -24,10 +24,12 @@ if(request.getParameter ("nombreEdicion") != null){ %>
 	
 	Fabrica fab = Fabrica.getInstancia();
 	IControladorCurso iconCur = fab.getIControladorCurso();
+	IControladorUsuario iconUsr = fab.getIControladorUsuario();
 	
 	DtinfoEdicion infoEdicion = iconCur.ConsultaEdicion(nombreInstituto, nombreCurso, nombreEdicion);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+	
 	
 	
 %>
@@ -52,7 +54,14 @@ if(request.getParameter ("nombreEdicion") != null){ %>
       	<p class="card-text"><b>Fecha de Inicio: </b><%=infoEdicion.getfechaInicio()%></p>
       	<p class="card-text"><b>Fecha de Fin: </b><%=infoEdicion.getfechaFin()%></p>
       	<p class="card-text"><b>Fecha de Pub: </b><%=infoEdicion.getFechaPub()%></p>
-      	</div>
+      	<%
+      	if(sesion.getAttribute("usuario") != null){
+    		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+      		if(!iconUsr.esEstudiante(usr.getNickname())){ %>
+			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>				
+		<%}
+			} %>
+		</div>
     </div>
   </div>
 </div>
@@ -79,7 +88,7 @@ if(request.getParameter ("nombreEdicion") != null){ %>
   			else{
   				for(int i = 0; i<docentes.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=docentes[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
+  						<a href="#" class="btn btn-primary" >Ver información</a>	
 					</li>
 		<%		}
   			}
@@ -98,6 +107,7 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
 	
 	Fabrica fab = Fabrica.getInstancia();
 	IControladorCurso iconCur = fab.getIControladorCurso();
+	IControladorUsuario iconUsr = fab.getIControladorUsuario();
 	
 	DtinfoEdicion infoEdicionCat = iconCur.ConsultaEdicionCategoria(nombreCategoria, nombreCurso, nombreEdicion);
 	
@@ -126,6 +136,13 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
       	<p class="card-text"><b>Fecha de Inicio: </b><%=infoEdicionCat.getfechaInicio()%></p>
       	<p class="card-text"><b>Fecha de Fin: </b><%=infoEdicionCat.getfechaFin()%></p>
       	<p class="card-text"><b>Fecha de Pub: </b><%=infoEdicionCat.getFechaPub()%></p>
+      	<%
+      	if(sesion.getAttribute("usuario") != null){
+    		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+      		if(!iconUsr.esEstudiante(usr.getNickname())){ %>
+			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreIns%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>				
+		<%}
+			} %>
       	</div>
     </div>
   </div>
