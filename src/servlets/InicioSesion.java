@@ -34,21 +34,29 @@ public class InicioSesion extends HttpServlet {
 		Fabrica fab = Fabrica.getInstancia();
 		IControladorUsuario iconUsr = fab.getIControladorUsuario();
 		
-		DtUsuario usr = iconUsr.ConsultaUsuario(nickname);
-		HttpSession sesion = request.getSession();
-		RequestDispatcher rd;
-		
-		if(usr.getContrasenia().equals(contra) && sesion.getAttribute("usuario") == null) {
-			sesion.setAttribute("usuario", usr);
-			rd = request.getRequestDispatcher("/loginExito.jsp");
-			rd.forward(request, response);
+		if(iconUsr.existeUsuario(nickname)) {
+			DtUsuario usr = iconUsr.ConsultaUsuario(nickname);
+			HttpSession sesion = request.getSession();
+			RequestDispatcher rd;
+	
+	
+				if(usr.getContrasenia().equals(contra) && sesion.getAttribute("usuario") == null) {
+					sesion.setAttribute("usuario", usr);
+					rd = request.getRequestDispatcher("/loginExito.jsp");
+					rd.forward(request, response);
+				}
+				else {
+					request.setAttribute("error", "Contrasenia invalida");
+					rd = request.getRequestDispatcher("/inicioSesion.jsp");
+					rd.forward(request, response);
+				}
 		}
 		else {
-			request.setAttribute("error", "Nickname y/o contraseña inválidos");
+			RequestDispatcher rd;
+			request.setAttribute("error", "Nickname invalido");
 			rd = request.getRequestDispatcher("/inicioSesion.jsp");
 			rd.forward(request, response);
 		}
-		
 		
 	}
 

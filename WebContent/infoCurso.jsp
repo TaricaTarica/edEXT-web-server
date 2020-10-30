@@ -25,7 +25,7 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 	
 	DtCursoInfo infoCurso = iconCur.ConsultaCurso(nombreInstituto, nombreCurso);
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	String fecha = infoCurso.getFechaAlta().format(formatter);
 %>
 <div class="card mb-3" >
@@ -46,9 +46,11 @@ if(request.getParameter ("nombreInstituto") != null){ %>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">Información Básica</h5>
+      	<p class="card-text"><b>Instituto: </b><%=nombreInstituto%></p>
+      	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha Alta: </b><%=fecha%></p>
+      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p>
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>
@@ -57,20 +59,35 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 <%
 	String[] programas = iconCur.listarProgramasAux(nombreInstituto, nombreCurso);
 	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
+	String[] categorias = iconCur.listarCategoriasC(nombreInstituto, nombreCurso);
+	String[] previas = iconCur.listarPrevias(nombreInstituto, nombreCurso);
+
 %>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
+  
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Programas de Formación</a>
   </li>
+  
   <li class="nav-item">
     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Ediciones</a>
   </li>
+  
+  <li class="nav-item">
+    <a class="nav-link" id="profile2-tab" data-toggle="tab" href="#profile2" role="tab" aria-controls="profile2" aria-selected="false">Categorías</a>
+  </li>
+  
+  <li class="nav-item">
+    <a class="nav-link" id="profile3-tab" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile3" aria-selected="false">Previas</a>
+  </li>
+
 </ul>
 
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-  	<div class="card">
+ <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="card">
+  	<div class="card-body">
   		<% 
   			if(programas.length == 0){
   		%>
@@ -82,11 +99,12 @@ if(request.getParameter ("nombreInstituto") != null){ %>
   			else{
   				for(int i = 0; i<programas.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=programas[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
+  						<a href="ContinuarConsultaProgramaFormacion.jsp?cb_Programa=<%=programas[i]%>" class="btn btn-primary">Ver información</a>	
 					</li>
 		<%		}
   			}
 		%>
+	</div>
 	</div>
   </div>
  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -111,6 +129,48 @@ if(request.getParameter ("nombreInstituto") != null){ %>
   		</div>
 	</div>
 </div>
+ <div class="tab-pane fade" id="profile2" role="tabpanel" aria-labelledby="profile2-tab">
+ 	<div class="card">
+  		<div class="card-body">
+  		<% 
+  			if(categorias.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>categorias</i> asociadas.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<categorias.length; i++){ %>
+  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=categorias[i]%></p>		
+					</li>
+		<%		}
+  			}
+		%>
+  		</div>
+	</div>
+</div>
+ <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile3-tab">
+ 	<div class="card">
+  		<div class="card-body">
+  		<% 
+  			if(previas.length == 0){
+  		%>
+  			<div class="alert alert-primary" role="alert">
+  				El curso no tiene <i>Previas</i> asociadas.
+			</div>
+  		<%
+  			}
+  			else{
+  				for(int i = 0; i<previas.length; i++){ %>
+  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=previas[i]%></p>		
+					</li>
+		<%		}
+  			}
+		%>
+  		</div>
+	</div>
+</div>
 </div> 
 
 <%
@@ -125,7 +185,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
 	
 	DtCursoInfo infoCurso = iconCur.ConsultaCursoCategoria(nombreCategoria, nombreCurso);
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	String fecha = infoCurso.getFechaAlta().format(formatter);
 	
 	String nombreInstituto = iconCur.obtenerInstitutoCurso(nombreCurso);
@@ -148,9 +208,11 @@ if(request.getParameter ("nombreCategoria") != null){%>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">Información Básica</h5>
+      	<p class="card-text"><b>Instituto: </b><%=nombreInstituto%></p>
+      	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha Alta: </b><%=fecha%></p>
+      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p>
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>
@@ -187,7 +249,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
   			else{
   				for(int i = 0; i<programas.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=programas[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
+  						<a href="ContinuarConsultaProgramaFormacion.jsp?cb_Programa=<%=programas[i]%>" class="btn btn-primary">Ver información</a>	
 					</li>
 		<%		}
   			}

@@ -52,21 +52,21 @@ public class AltaCurso extends HttpServlet {
 		String[] previas = request.getParameterValues("previas[]");
 		String[] categorias = request.getParameterValues("categorias[]");
 		
-		String imgCurso =  request.getParameter("img_curso"); //recibo string con el path de la imagen
+		//String imgCurso =  request.getParameter("img_curso"); //recibo string con el path de la imagen
 		
-		File origen = null;
-		File destino = null;
+		//File origen = null;
+		//File destino = null;
 		
 		LocalDate fechaAlta = LocalDate.now();
 		
-		DtCurso curso = new DtCurso(nombre, descripcion, duracion, h, c, fechaAlta, url);
+		DtCurso curso = new DtCurso(nombre, descripcion, duracion, h, c, fechaAlta, url, instituto);
 		
-		if(!imgCurso.isEmpty()) { //si el path no es vacío -> cargaron imagen.
-			origen = new File(imgCurso); //obtengo el archivo a partir de la ruta que recibí
-			String imgDestino = "C:\\Users\\tarica\\eclipse-workspace\\edextSW\\WebContent\\imagenes\\imgCursos\\"+curso.getNombre()+".jpg"; //determino ruta destino con el nombredel curso y la extensión (por ahora la fuerzo a que sea jpg)
+		/*if(!imgCurso.isEmpty()) { //si el path no es vacï¿½o -> cargaron imagen.
+			origen = new File(imgCurso); //obtengo el archivo a partir de la ruta que recibï¿½
+			String imgDestino = "C:\\Users\\tarica\\eclipse-workspace\\edextSW\\WebContent\\imagenes\\imgCursos\\"+curso.getNombre()+".jpg"; //determino ruta destino con el nombredel curso y la extensiï¿½n (por ahora la fuerzo a que sea jpg)
 			destino = new File(imgDestino); 
 			curso.setImg(imgDestino);
-		}
+		}*/
 		
 		Fabrica fab = Fabrica.getInstancia();
 		IControladorCurso iconCur = fab.getIControladorCurso();
@@ -74,9 +74,9 @@ public class AltaCurso extends HttpServlet {
 		RequestDispatcher rd;
 		
 		try {
-			if(!imgCurso.isEmpty()){
+			/*if(!imgCurso.isEmpty()){
 				Files.copy(origen.toPath(), destino.toPath()); //copio la imagen del destino al origen.
-			}
+			}*/
 			iconCur.AltaCurso(curso, instituto);
 			if(previas != null){
 				for(int i = 0; i<previas.length; i++) {

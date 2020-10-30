@@ -47,10 +47,11 @@
     <input name="cupo" type="text" class="form-control" id="InputCupo">
   </div>
   </div>
-  </div>
   <div class = "card-footer">			
   	<button type="submit" class="btn btn-primary">Continuar</button>
   </div>
+  </div>
+  
  </div>
 </form>
 

@@ -12,7 +12,7 @@
 <br>
 <div class = container mt-4>
 	<div class="alert alert-success" role="alert">
-  		<h4 class="alert-heading">¡Inicio de sesion exitoso!</h4>
+  		<h4 class="alert-heading">¡Inicio de sesión exitoso!</h4>
   			<%
   			DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
   			%>

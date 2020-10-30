@@ -21,9 +21,7 @@
 	DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
 	String nicknameEstudiante = usr.getNickname();
 %>
-<%if(request.getAttribute("error") != null){%>
-  <div class="alert alert-danger">${error}</div>
-<%}%>
+
 <%if(ediciones.length == 0){%>
 	<div class="alert alert-primary" role="alert">
   		El curso no posee ediciones vigentes. <a href="index.jsp" class="alert-link">Volver a inicio</a>.
@@ -49,6 +47,11 @@
 			</div>
 		</div>
 	</form>
+	
+  <%if(request.getAttribute("error") != null){%>
+  <div class="alert alert-danger">${error}</div>
+  <%}%>	
+	
 </div>
 <%@include file="footer.jsp"%>
 </body>

@@ -6,6 +6,8 @@
 <%@page import="datatypes.EstadoInscripcion"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,7 +51,13 @@
     			%>
     			<tr>
       				<th scope="row"><%=dtied.getNicknameEstudiante()%></th>
-      					<td><%=dtied.getFecha()%></td>
+      					
+      					<%
+      					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
+						String fecha = dtied.getFecha().format(formatter);
+						%>
+      					
+      					<td><%=fecha%></td>
       					<%if(dtied.getEstado().equals(EstadoInscripcion.Aceptado)){ %>
       						<td><span class="badge badge-pill badge-success">Aceptado</span></td>
       					<%

@@ -36,37 +36,38 @@
 		<div class="form-group">
 			<label for="InputNickname">Nickname</label> <input type="text" name="nickname"
 				class="form-control" id="InputNickname"
-				aria-describedby="nicknameHelp" placeholder="ingresar nickname">
+				aria-describedby="nicknameHelp" placeholder="ingresar nickname" required>
+
 		</div>
 		<div class="form-group">
 			<label for="InputCorreo">Correo electrónico</label> <input type="text" name="correo"
 				class="form-control" id="InputCorreo"
-				aria-describedby="correolHelp" placeholder="ingresar correo electrónico">
+				aria-describedby="correolHelp" placeholder="ingresar correo electrónico" required>
 		</div>
 		<div class="form-group">
 			<label for="InputNombre">Nombre</label> <input type="text" name="nombre"
 				class="form-control" id="InputNombre"
-				placeholder="ingresar nombre">
+				placeholder="ingresar nombre" required>
 		</div>
 		<div class="form-group">
 			<label for="InputApellido">Apellido</label> <input type="text" name="apellido"
 				class="form-control" id="InputApellido"
-				placeholder="ingresar apellido">
+				placeholder="ingresar apellido" required>
 		</div>
 		<div class="form-group">
 			<label for="InputNacimiento">Fecha de Nacimiento</label> <input type="text" name="fnac"
 				class="form-control" id="InputNacimiento"
-				placeholder="ingresar fecha de nacimiento">
+				placeholder="ingresar fecha de nacimiento" required>
 		</div>
 		<div class="form-group">
 			<label for="InputContrasenia">Contraseña</label> <input type="password" name="contrasenia"
 				class="form-control" id="InputContrasenia"
-				placeholder="ingresar contraseña">
+				placeholder="ingresar contraseña" required>
 		</div>
 		<div class="form-group">
 			<label for="InputCContrasenia">Confirmar Contraseña</label> <input type="password" name="ccontrasenia"
 				class="form-control" id="CContrasenia"
-				placeholder="ingresar contraseña">
+				placeholder="ingresar contraseña" required>
 		</div>
 		<div class="form-group form-check">
     		<input type="checkbox" name="cb_Docente" class="form-check-input" id="cb_Docente" onchange="javascript:showContent()" checked>
@@ -94,6 +95,11 @@
   		<div class = "card-footer">
 			<button type="submit" class="btn btn-primary">Registrarse</button>
 		</div>
+		
+  <%if(request.getAttribute("error") != null){%>
+  <div class="alert alert-danger">${error}</div>
+  <%}%>		
+		
 </div>
 </form>
 </div>

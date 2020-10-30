@@ -10,7 +10,7 @@
 <html>
 <head>
 <%@include file="header.jsp"%>
-<title>Información de Curso</title>
+<title>Información de Edición de Curso</title>
 </head>
 <body>
 <br>
@@ -28,10 +28,11 @@ if(request.getParameter ("nombreEdicion") != null){ %>
 	
 	DtinfoEdicion infoEdicion = iconCur.ConsultaEdicion(nombreInstituto, nombreCurso, nombreEdicion);
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-	
-	
-	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
+	String fechaI = infoEdicion.getfechaInicio().format(formatter);
+	String fechaF = infoEdicion.getfechaFin().format(formatter);
+	String fechaP = infoEdicion.getFechaPub().format(formatter);
+
 %>
 <div class="card mb-3" >
   <div class="row no-gutters">
@@ -51,14 +52,16 @@ if(request.getParameter ("nombreEdicion") != null){ %>
       <div class="card-body">
         <h5 class="card-title">Información Básica</h5>
       	<p class="card-text"><b>Cupo: </b><%=infoEdicion.getCupo()%></p>
-      	<p class="card-text"><b>Fecha de Inicio: </b><%=infoEdicion.getfechaInicio()%></p>
-      	<p class="card-text"><b>Fecha de Fin: </b><%=infoEdicion.getfechaFin()%></p>
-      	<p class="card-text"><b>Fecha de Pub: </b><%=infoEdicion.getFechaPub()%></p>
+      	<p class="card-text"><b>Fecha de inicio: </b><%=fechaI%></p>
+      	<p class="card-text"><b>Fecha de fin: </b><%=fechaF%></p>
+      	<p class="card-text"><b>Fecha de publicación: </b><%=fechaP%></p>
       	<%
       	if(sesion.getAttribute("usuario") != null){
     		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
       		if(!iconUsr.esEstudiante(usr.getNickname())){ %>
-			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>				
+			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>
+			<a href="listarAceptadosEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Ver inscripciones aceptadas</a>
+			<a href="ListarInscripcionesEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Ver inscripciones</a>								
 		<%}
 			} %>
 		</div>
@@ -88,7 +91,6 @@ if(request.getParameter ("nombreEdicion") != null){ %>
   			else{
   				for(int i = 0; i<docentes.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=docentes[i]%></p>
-  						<a href="#" class="btn btn-primary" >Ver información</a>	
 					</li>
 		<%		}
   			}
@@ -111,8 +113,10 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
 	
 	DtinfoEdicion infoEdicionCat = iconCur.ConsultaEdicionCategoria(nombreCategoria, nombreCurso, nombreEdicion);
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
+	String fechaI = infoEdicionCat.getfechaInicio().format(formatter);
+	String fechaF = infoEdicionCat.getfechaFin().format(formatter);
+	String fechaP = infoEdicionCat.getFechaPub().format(formatter);
 	
 %>
 <div class="card mb-3" >
@@ -133,9 +137,9 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
       <div class="card-body">
         <h5 class="card-title">Información Básica</h5>
       	<p class="card-text"><b>Cupo: </b><%=infoEdicionCat.getCupo()%></p>
-      	<p class="card-text"><b>Fecha de Inicio: </b><%=infoEdicionCat.getfechaInicio()%></p>
-      	<p class="card-text"><b>Fecha de Fin: </b><%=infoEdicionCat.getfechaFin()%></p>
-      	<p class="card-text"><b>Fecha de Pub: </b><%=infoEdicionCat.getFechaPub()%></p>
+      	<p class="card-text"><b>Fecha de inicio: </b><%=fechaI%></p>
+      	<p class="card-text"><b>Fecha de fin: </b><%=fechaF%></p>
+      	<p class="card-text"><b>Fecha de publicación: </b><%=fechaP%></p>
       	<%
       	if(sesion.getAttribute("usuario") != null){
     		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
@@ -170,7 +174,6 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
   			else{
   				for(int i = 0; i<docentes.length; i++){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=docentes[i]%></p>
-  						<a href="#" class="btn btn-primary">Ver información</a>	
 					</li>
 		<%		}
   			}

@@ -42,17 +42,21 @@
   			<div class="collapse navbar-collapse" id="navbarNav">
     			<ul class="navbar-nav mr-auto">
       				<li class="nav-item">
-        				<a class="nav-link" href="index.jsp">Home</a>
-      				</li>
-      				<li class="nav-item">
         				<a class="nav-link" href="Registrarse.jsp">Registrarse</a>
       				</li>
       				<li class="nav-item">
         				<a class="nav-link" href="inicioSesion.jsp">Iniciar Sesion</a>
       				</li>
-      				<li class="nav-item">
-        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-      				</li>
+      				<li class="nav-item dropdown">
+        				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 Consultas
+        				</a>
+        				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+   							<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
+         					<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+         					<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
+       					 </div>
+     				</li>
     			</ul>
     			<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
      				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">
@@ -73,18 +77,36 @@
   				</button>
   				<div class="collapse navbar-collapse" id="navbarNav">
     				<ul class="navbar-nav mr-auto">
-      					<li class="nav-item">
-        					<a class="nav-link" href="index.jsp">Home</a>
-      					</li>
-      					<li class="nav-item">
-        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-      					</li>
-      					<li class="nav-item">
-        					<a class="nav-link" href="inscribirseEdicion.jsp">Inscribirse a Edición</a>
-      					</li>
-     				 	<li class="nav-item">
-        					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
-      					</li>
+      					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 Consultas
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+   								<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
+         						<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+         						<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
+       					 	</div>
+     					</li>
+     					
+     					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 Inscripciones
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+   								<a class="nav-link" href="inscribirseEdicion.jsp">Inscribirse a Edición</a>
+   								<a class="nav-link" href="InscribirseProgramaFormacion.jsp">Inscribirse a Programa</a>
+       					 	</div>
+     					</li>
+     					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 	Mi Cuenta
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        						<a class="nav-link" href="ContinuarConsultarUsuario.jsp?cb_Usuario=<%=usr.getNickname()%>">Ver mi perfil</a>
+   								<a class="nav-link" href="modificarUsuario.jsp">Modificar Usuario</a>
+   								<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
+       					 	</div>
+     					</li>
     				</ul>
     				<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
      				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">
@@ -101,22 +123,37 @@
   				</button>
   				<div class="collapse navbar-collapse" id="navbarNav">
     				<ul class="navbar-nav mr-auto">
-      					<li class="nav-item">
-        					<a class="nav-link" href="index.jsp">Home</a>
-      					</li>
-      					<li class="nav-item">
-        					<a class="nav-link" href="altaCurso.jsp">Alta de Curso</a>
-      					</li>
-      					</li>
-      					<li class="nav-item">
-        						<a class="nav-link" href="altadeEdiciondeCurso.jsp">Alta de Edición</a>
-      					</li>
-      					<li class="nav-item">
-        					<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-      					</li>
-      					<li class="nav-item">
-        					<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
-      					</li>
+    					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 Altas
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+   								<a class="nav-link" href="altaCurso.jsp">Alta de Curso</a>
+   								<a class="nav-link" href="altadeEdiciondeCurso.jsp">Alta de Edición</a>
+   								<a class="nav-link" href="crearProgramaF.jsp">Alta Programa de Fomacion</a>
+   								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa</a>
+       					 	</div>
+     					</li>
+     					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 Consultas
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+   								<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
+   								<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+   								<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
+   								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa</a>
+       					 	</div>
+     					</li>
+      					<li class="nav-item dropdown">
+        					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         					 	Mi Cuenta
+        					</a>
+        					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        						<a class="nav-link" href="ContinuarConsultarUsuario.jsp?cb_Usuario=<%=usr.getNickname()%>">Ver mi perfil</a>
+   								<a class="nav-link" href="modificarUsuario.jsp">Modificar Usuario</a>
+   								<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
+       					 	</div>
     				</ul>
     				<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">
      				 <input name ="busqueda" class="form-control mr-sm-2" type="search" placeholder="Curso o Prog. de Formación" aria-label="Search">

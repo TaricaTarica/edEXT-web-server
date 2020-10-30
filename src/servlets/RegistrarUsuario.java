@@ -18,6 +18,7 @@ import datatypes.DtEstudiante;
 import datatypes.DtUsuario;
 import excepciones.UsuarioRepetido_Exception;
 
+
 @WebServlet("/RegistrarUsuario")
 public class RegistrarUsuario extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,34 +50,47 @@ public class RegistrarUsuario extends HttpServlet {
 		RequestDispatcher rd;
 		
 		DtUsuario usr = null;
-	
-		if(request.getParameter("cb_Docente") == null) {
-			
-			usr = new DtEstudiante(nickname, nombre, apellido, correo, fn, contrasenia);
-			try {
-				iconUsr.confirmarAlta(usr);
+		
+		if(contrasenia.equals(ccontrasenia)) {
+			//ESTUDIANTE
+			if(request.getParameter("cb_Docente") == null) {
+				
+				usr = new DtEstudiante(nickname, nombre, apellido, correo, fn, contrasenia);
+				try {
+					iconUsr.confirmarAlta(usr);
+				}
+				catch(UsuarioRepetido_Exception e) {
+					throw new ServletException(e.getMessage());
+				}
+				
+				request.setAttribute("mensaje", "Se ha registrado correctamente al estudiante " + nombre );
+				rd = request.getRequestDispatcher("/notificacion.jsp");
+				rd.forward(request, response);
 			}
-			catch(UsuarioRepetido_Exception e) {
-				throw new ServletException(e.getMessage());
-			}
 			
-			request.setAttribute("mensaje", "Se ha registrado correctamente al estudiante " + nombre );
-			rd = request.getRequestDispatcher("/notificacion.jsp");
+			//DOCENTE
+			else {
+				usr = new DtDocente(nickname, nombre, apellido, correo, fn, contrasenia);
+				iconUsr.ingresarInstitutoDocente(request.getParameter("cb_Instituto"));
+				try {
+					iconUsr.confirmarAlta(usr);
+				}
+				catch(UsuarioRepetido_Exception e) {
+					throw new ServletException(e.getMessage());
+				}
+				request.setAttribute("mensaje", "Se ha registrado correctamente al docente " + nombre );
+				rd = request.getRequestDispatcher("/notificacion.jsp");
+				rd.forward(request, response);
+			}
+		}
+		else{
+			request.setAttribute("error", "Las contraseñas no coinciden, MANCO");
+			rd = request.getRequestDispatcher("/Registrarse.jsp");
 			rd.forward(request, response);
 		}
-		else {
-			usr = new DtDocente(nickname, nombre, apellido, correo, fn, contrasenia);
-			iconUsr.ingresarInstitutoDocente(request.getParameter("cb_Instituto"));
-			try {
-				iconUsr.confirmarAlta(usr);
-			}
-			catch(UsuarioRepetido_Exception e) {
-				throw new ServletException(e.getMessage());
-			}
-			request.setAttribute("mensaje", "Se ha registrado correctamente al docente " + nombre );
-			rd = request.getRequestDispatcher("/notificacion.jsp");
-			rd.forward(request, response);
-		}
+
+
+			
 		
 	}
 
