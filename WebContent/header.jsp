@@ -45,7 +45,7 @@
         				<a class="nav-link" href="Registrarse.jsp">Registrarse</a>
       				</li>
       				<li class="nav-item">
-        				<a class="nav-link" href="inicioSesion.jsp">Iniciar Sesion</a>
+        				<a class="nav-link" href="inicioSesion.jsp">Iniciar Sesión</a>
       				</li>
       				<li class="nav-item dropdown">
         				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +53,7 @@
         				</a>
         				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
    							<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-         					<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+         					<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa de Formación</a>
          					<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
        					 </div>
      				</li>
@@ -83,7 +83,7 @@
         					</a>
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
    								<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-         						<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+         						<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa de Formación</a>
          						<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
        					 	</div>
      					</li>
@@ -93,8 +93,8 @@
          					 Inscripciones
         					</a>
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-   								<a class="nav-link" href="inscribirseEdicion.jsp">Inscribirse a Edición</a>
-   								<a class="nav-link" href="InscribirseProgramaFormacion.jsp">Inscribirse a Programa</a>
+   								<a class="nav-link" href="inscribirseEdicion.jsp">Inscribirse a Edición de Curso</a>
+   								<a class="nav-link" href="InscribirseProgramaFormacion.jsp">Inscribirse a Programa de Formación</a>
        					 	</div>
      					</li>
      					<li class="nav-item dropdown">
@@ -104,7 +104,7 @@
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
         						<a class="nav-link" href="ContinuarConsultarUsuario.jsp?cb_Usuario=<%=usr.getNickname()%>">Ver mi perfil</a>
    								<a class="nav-link" href="modificarUsuario.jsp">Modificar Usuario</a>
-   								<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
+   								<a class="nav-link" href="CerrarSesion">Cerrar Sesión</a>
        					 	</div>
      					</li>
     				</ul>
@@ -130,7 +130,7 @@
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
    								<a class="nav-link" href="altaCurso.jsp">Alta de Curso</a>
    								<a class="nav-link" href="altadeEdiciondeCurso.jsp">Alta de Edición</a>
-   								<a class="nav-link" href="crearProgramaF.jsp">Alta Programa de Fomacion</a>
+   								<a class="nav-link" href="crearProgramaF.jsp">Alta de Programa de Formación</a>
    								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa</a>
        					 	</div>
      					</li>
@@ -140,9 +140,9 @@
         					</a>
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
    								<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
-   								<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa</a>
+   								<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa de Formación</a>
    								<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
-   								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa</a>
+   								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa de Formación</a>
        					 	</div>
      					</li>
       					<li class="nav-item dropdown">
@@ -152,7 +152,7 @@
         					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
         						<a class="nav-link" href="ContinuarConsultarUsuario.jsp?cb_Usuario=<%=usr.getNickname()%>">Ver mi perfil</a>
    								<a class="nav-link" href="modificarUsuario.jsp">Modificar Usuario</a>
-   								<a class="nav-link" href="CerrarSesion">Cerrar Sesion</a>
+   								<a class="nav-link" href="CerrarSesion">Cerrar Sesión</a>
        					 	</div>
     				</ul>
     				<form action="buscarCursoPrograma.jsp" class="form-inline my-2 my-lg-0">

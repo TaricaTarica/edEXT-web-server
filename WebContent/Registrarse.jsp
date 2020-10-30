@@ -103,7 +103,7 @@
 </div>
 </form>
 </div>
- 
-<%@include file="footer.jsp"%>
 </body>
+<br> 
+<%@include file="footer.jsp"%>
 </html>

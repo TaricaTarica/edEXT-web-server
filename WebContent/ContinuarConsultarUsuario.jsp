@@ -195,9 +195,17 @@ if(sesion.getAttribute("usuario") == null){ %>
 						      	<p class="card-text"><b>Apellido: </b><%=infoUsuarioE.getApellido()%></p>
 								<p class="card-text"><b>Correo: </b><%=infoUsuarioE.getCorreo()%></p>
 								<p class="card-text"><b>Fecha de Nacimiento: </b><%=fecha%></p>
-					      		<input type="hidden" name="nickSeguir" value="<%=infoUsuarioE.getNickname()%>">
-					      		<input type="hidden" name="nickSeguidor" value="<%=usr.getNickname()%>">
-					      		<button type="submit" class="btn btn-success">Seguir</button>
+					      		<input type="hidden" name="usuarioEnCuestion" value="<%=infoUsuarioE.getNickname()%>">
+					      		<input type="hidden" name="usuarioLogueado" value="<%=usr.getNickname()%>">
+					      		<%if(!usr.getNickname().equals(nombreUsuario)){%>
+					      			<%if(iconUsr.esSeguidor(usr.getNickname(),nombreUsuario)){%>
+					      				<input type="hidden" name="accion" value="dejarSeguir">
+					      				<button type="submit" class="btn btn-danger">Dejar de seguir</button>
+					      			<%}else{%>
+					      				<input type="hidden" name="accion" value="seguir">
+					      				<button type="submit" class="btn btn-success">Seguir</button>
+					      			<%}
+					      		}%>
 					      </div>
 					    </div>
 					  </div>

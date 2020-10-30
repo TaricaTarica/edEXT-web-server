@@ -26,21 +26,45 @@ public class SeguirUsuario extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String seguir = request.getParameter("nickSeguir");
-		String seguidor = request.getParameter("nickSeguidor");
-	
-		System.out.println(seguir);
-		System.out.println(seguidor);
-	
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorUsuario iconUsr = fab.getIControladorUsuario();
+		String accion = request.getParameter("accion");
+		if(accion.equals("seguir")){
 		
-		iconUsr.seguirUsuario(seguidor, seguir);
-		
-		RequestDispatcher rd;		
-		request.setAttribute("mensaje", "Se ha seguido correctamente al estudiante " + seguir );
-		rd = request.getRequestDispatcher("/notificacion.jsp");
-		rd.forward(request, response);
+				String seguidor = request.getParameter("usuarioLogueado");
+				String seguir = request.getParameter("usuarioEnCuestion");
+
+				System.out.println(seguidor);
+				System.out.println(seguir);
+			
+				Fabrica fab = Fabrica.getInstancia();
+				IControladorUsuario iconUsr = fab.getIControladorUsuario();
+				
+				iconUsr.seguirUsuario(seguidor, seguir);
+				
+				RequestDispatcher rd;		
+				request.setAttribute("mensaje", "Se ha seguido correctamente al estudiante " + seguir );
+				rd = request.getRequestDispatcher("/notificacion.jsp");
+				rd.forward(request, response);
+	
+		}
+		else if(accion.equals("dejarSeguir")) {
+				
+				String seguidor = request.getParameter("usuarioLogueado");
+				String dejarSeguir = request.getParameter("usuarioEnCuestion");
+
+				System.out.println(seguidor);
+				System.out.println(dejarSeguir);
+			
+				Fabrica fab = Fabrica.getInstancia();
+				IControladorUsuario iconUsr = fab.getIControladorUsuario();
+				
+				iconUsr.dejarSeguir(seguidor, dejarSeguir);
+				
+				RequestDispatcher rd;		
+				request.setAttribute("mensaje", "Se ha dejado de seguir correctamente al estudiante " + dejarSeguir );
+				rd = request.getRequestDispatcher("/notificacion.jsp");
+				rd.forward(request, response);
+			
+		}
 	}
 
 }

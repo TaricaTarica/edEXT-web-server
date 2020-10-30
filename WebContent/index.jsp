@@ -25,7 +25,7 @@
     <h5 class="card-title">edEXT</h5>
     <p class="card-text">Aprende y enseña desde la comodidad de tu hogar.</p>
     <%if(sesion.getAttribute("usuario") == null){ %>
-    	<a href="inicioSesion.jsp" class="card-link">Inicia Sesion</a>
+    	<a href="inicioSesion.jsp" class="card-link">Iniciar Sesión</a>
     	<a href="Registrarse.jsp" class="card-link">Registrarse</a>
     <%} %>
   </div>
@@ -52,7 +52,7 @@
 <br>
 <div class="card" style="width: 15rem;">
   <div algin="center" class="card-header">
-    Categorias
+    Categorías
   </div>
   <ul class="list-group list-group-flush">
   	<%
