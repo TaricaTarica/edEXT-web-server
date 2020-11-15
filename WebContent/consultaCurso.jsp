@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,9 +29,9 @@
 		  		<div id = "institutos" class="form-group">
 	    			<select name ="cb_Instituto" class="form-control" id="cbinstitutos">
 	      				<%
-      					Fabrica fab = Fabrica.getInstancia();
-      					IControladorCurso iconCur = fab.getIControladorCurso();
-      					String[] nombreInstitutos = iconCur.listarInstitutos();	
+	      				ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+						ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+      					String[] nombreInstitutos = port.listarInstitutos();	
       				
     					int i = 0;
     					while(i < nombreInstitutos.length){ %>
@@ -47,7 +48,7 @@
 		  		<div id = "categorias" class="form-group">
 		    			<select name ="cb_Categoria" class="form-control" id="cbcategorias">
 		      				<%
-	      					String[] nombreCategorias = iconCur.listarCategorias();				
+	      					String[] nombreCategorias = port.listarCategorias();				
 	    					i = 0;
 	    					while(i < nombreCategorias.length){ %>
 	    					<option><%= nombreCategorias[i]%></option>
@@ -96,7 +97,7 @@
  		</div>
  		<div class="card-body">
 			<% String nombreInstituto = (String) request.getAttribute("inst"); 
-			   String[] cursos = iconCur.listarCursos(nombreInstituto);	
+			   String[] cursos = port.listarCursos(nombreInstituto);	
 				//<input type="hidden" name="instituto" value="instituto">
 				for(i = 0; i<cursos.length; i++){%>
 						<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursos[i]%></p>
@@ -113,7 +114,7 @@
  		</div>
  		<div class="card-body">
 			<% String nombreCategoria = (String) request.getAttribute("cate"); 
-			   String[] cursosCat = iconCur.listarCursosCategoria(nombreCategoria);	
+			   String[] cursosCat = port.listarCursosCategoria(nombreCategoria);	
 				for(i = 0; i<cursosCat.length; i++){%>
 						<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursosCat[i]%></p>
 			 					<a href="infoCurso.jsp?nombreCategoria=<%=nombreCategoria%>&nombreCurso=<%=cursosCat[i]%>" class="btn btn-primary">Ver información</a>

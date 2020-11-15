@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,9 +38,10 @@
 	<div class="form-group">
     	<label for="exampleFormControlSelect2">Previas</label>
     	<select name="previas[]" multiple class="form-control" id="exampleFormControlSelect2">
-      		<%	Fabrica fab = Fabrica.getInstancia();
-				IControladorCurso iconCur = fab.getIControladorCurso();
-    			String[] cursos = iconCur.listarCursos(instituto);
+      		<%	
+	      		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+				ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+    			String[] cursos = port.listarCursos(instituto);
     			int i = 0;
     			while(i<cursos.length){%>
       				<option><%= cursos[i]%></option>
@@ -51,7 +53,7 @@
     	<label for="categoriaControlSelect2">Categorias</label>
     	<select name="categorias[]" multiple class="form-control" id="exampleFormControlSelect2">
       		<%
-    			String[] categorias = iconCur.listarCategorias();
+    			String[] categorias = port.listarCategorias();
     			i = 0;
     			while(i<categorias.length){%>
       				<option><%= categorias[i]%></option>

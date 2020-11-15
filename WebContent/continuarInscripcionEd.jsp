@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,12 +14,12 @@
 <br>
 <div class = container mt-4>
 <%
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	String nombreCurso = request.getParameter ("nombreCurso");
-	String nombreInstituto = iconCur.obtenerInstitutoCurso(nombreCurso);
-	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
-	DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+	String nombreInstituto = port.obtenerInstitutoCurso(nombreCurso);
+	String[] ediciones = port.listarEdiciones(nombreInstituto, nombreCurso);
+	publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
 	String nicknameEstudiante = usr.getNickname();
 %>
 

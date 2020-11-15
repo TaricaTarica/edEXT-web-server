@@ -1,8 +1,12 @@
 package servlets;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,13 +14,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.rpc.ServiceException;
 
-import interfaces.Fabrica;
-import interfaces.IControladorUsuario;
-import datatypes.DtDocente;
-import datatypes.DtEstudiante;
-import datatypes.DtUsuario;
-import excepciones.UsuarioRepetido_Exception;
+import publicadores.ControladorUsuarioPublish;
+import publicadores.ControladorUsuarioPublishService;
+import publicadores.ControladorUsuarioPublishServiceLocator;
+
+import publicadores.DtDocente;
+import publicadores.DtEstudiante;
+
 
 
 @WebServlet("/RegistrarUsuario")
@@ -42,24 +48,28 @@ public class RegistrarUsuario extends HttpServlet {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 	
-		//convert String to LocalDate
-		LocalDate fn = LocalDate.parse(fnac, formatter);
+		/*convert String to LocalDate*/
+		LocalDate fn =  LocalDate.parse(fnac, formatter);
+		Calendar fechaCalendar = GregorianCalendar.from(fn.atStartOfDay(ZoneId.systemDefault()));
 		
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorUsuario iconUsr = fab.getIControladorUsuario();
 		RequestDispatcher rd;
 		
-		DtUsuario usr = null;
 		
 		if(contrasenia.equals(ccontrasenia)) {
 			//ESTUDIANTE
 			if(request.getParameter("cb_Docente") == null) {
 				
-				usr = new DtEstudiante(nickname, nombre, apellido, correo, fn, contrasenia);
+				publicadores.DtEstudiante est = new publicadores.DtEstudiante();
+				est.setNickname(nickname);
+				est.setNombre(nombre);
+				est.setApellido(apellido);
+				est.setCorreo(correo);
+				est.setFechaNac(fechaCalendar);
+				est.setContrasenia(contrasenia);
 				try {
-					iconUsr.confirmarAlta(usr);
+					confirmarAltaEstudiante(est);
 				}
-				catch(UsuarioRepetido_Exception e) {
+				catch(Exception e) {
 					throw new ServletException(e.getMessage());
 				}
 				
@@ -70,12 +80,23 @@ public class RegistrarUsuario extends HttpServlet {
 			
 			//DOCENTE
 			else {
-				usr = new DtDocente(nickname, nombre, apellido, correo, fn, contrasenia);
-				iconUsr.ingresarInstitutoDocente(request.getParameter("cb_Instituto"));
+				publicadores.DtDocente doc = new publicadores.DtDocente();
+				doc.setNickname(nickname);
+				doc.setNombre(nombre);
+				doc.setApellido(apellido);
+				doc.setCorreo(correo);
+				doc.setFechaNac(fechaCalendar);
+				doc.setContrasenia(contrasenia);
 				try {
-					iconUsr.confirmarAlta(usr);
+					ingresarInstitutoDocente(request.getParameter("cb_Instituto"));
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				catch(UsuarioRepetido_Exception e) {
+				try {
+					confirmarAltaDocente(doc);
+				}
+				catch(Exception e) {
 					throw new ServletException(e.getMessage());
 				}
 				request.setAttribute("mensaje", "Se ha registrado correctamente al docente " + nombre );
@@ -89,9 +110,21 @@ public class RegistrarUsuario extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-
-			
-		
+	}
+	public void confirmarAltaEstudiante(DtEstudiante usr) throws Exception {
+		ControladorUsuarioPublishService cps = new ControladorUsuarioPublishServiceLocator();
+		ControladorUsuarioPublish port = cps.getControladorUsuarioPublishPort();
+		port.confirmarAltaEstudiante(usr);
+	}
+	public void confirmarAltaDocente(DtDocente usr) throws Exception {
+		ControladorUsuarioPublishService cps = new ControladorUsuarioPublishServiceLocator();
+		ControladorUsuarioPublish port = cps.getControladorUsuarioPublishPort();
+		port.confirmarAltaDocente(usr);
+	}
+	public void ingresarInstitutoDocente(String nombreInstituto) throws Exception {
+		ControladorUsuarioPublishService cps = new ControladorUsuarioPublishServiceLocator();
+		ControladorUsuarioPublish port = cps.getControladorUsuarioPublishPort();
+		port.ingresarInstitutoDocente(nombreInstituto);
 	}
 
 }

@@ -1,13 +1,15 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="persistencia.Conexion"%>
+
 <%@page import="javax.persistence.EntityManager"%>
-<%@page import="logica.Curso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <%@page import="javax.persistence.Query"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.DtCurso"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,25 +19,13 @@
 <body>
 <br>
 <%
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	String nombreInstituto = new String();
 	String busqueda = request.getParameter("busqueda");
-	List<Curso> listCursos = new ArrayList<>();
-	if(!busqueda.isEmpty()){
-		Conexion conexion = Conexion.getInstancia();
-		EntityManager em = conexion.getEntityManager();
-		
-		Query query = em.createQuery("select c from Curso c where nombre LIKE '%"+busqueda+"%'");
-		listCursos = (List<Curso>) query.getResultList();
-	}
-	else{
-		Conexion conexion = Conexion.getInstancia();
-		EntityManager em = conexion.getEntityManager();
-		
-		Query query = em.createQuery("select c from Curso c");
-		listCursos = (List<Curso>) query.getResultList();
-	}
+	System.out.println(busqueda);
+	DtCurso[] listCursos = port.busquedaCurso(busqueda);
+	
 %>
 <div class = container mt-4>
 	<div class="card">
@@ -50,16 +40,16 @@
   			</thead>
   			<tbody>
     			<%
-    				for(Curso dtc: listCursos){
+    				for(int i = 0; i < listCursos.length; i++){
     			%>
     			<tr>
-      				<th scope="row"><%=dtc.getNombre()%></th>
-      					<td><%=dtc.getDescripcion()%></td>
+      				<th scope="row"><%=listCursos[i].getNombre()%></th>
+      					<td><%=listCursos[i].getDescripcion()%></td>
       					<td><span class="badge badge-pill badge-info">Curso</span></td>
       					<%
-      						nombreInstituto = iconCur.obtenerInstitutoCurso(dtc.getNombre());
+      						nombreInstituto = port.obtenerInstitutoCurso(listCursos[i].getNombre());
       					%>
-      					<td> <a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=dtc.getNombre()%>" class="btn btn-primary">Ver información</a></td>
+      					<td> <a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=listCursos[i].getNombre()%>" class="btn btn-primary">Ver información</a></td>
     			</tr>
     			<%
     				}

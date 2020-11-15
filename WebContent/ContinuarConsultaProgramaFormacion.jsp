@@ -4,6 +4,9 @@
 <%@page import="interfaces.IControladorCurso"%>
 <%@page import="datatypes.DtProgramaFormacion"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
 
 <!DOCTYPE html>
 <html>
@@ -25,9 +28,19 @@ if(request.getParameter ("cb_Programa") != null){ %>
 	DtProgramaFormacion infoPrograma = iconCur.ConsultaProgramaFormacion(nombrePrograma);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fechaI = infoPrograma.getFechaInicio().format(formatter);
-	String fechaF = infoPrograma.getFechaFin().format(formatter);
-	String fechaA = infoPrograma.getFechaAlta().format(formatter);
+	
+	/*CALENDAR TO LOCALDATE*/
+	Calendar calendarInicio = infoPrograma.getFechaInicio();
+	LocalDate fechaLocalDateInicio = LocalDateTime.ofInstant(calendarInicio.toInstant(), calendarInicio.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarFin = infoPrograma.getFechaFin();
+	LocalDate fechaLocalDateFin = LocalDateTime.ofInstant(calendarFin.toInstant(), calendarFin.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarAlta= infoPrograma.getFechaAlta();
+	LocalDate fechaLocalDateAlta = LocalDateTime.ofInstant(calendarAlta.toInstant(), calendarAlta.getTimeZone().toZoneId()).toLocalDate();
+	/*CALENDAR TO LOCALDATE*/
+	
+	String fechaI = fechaLocalDateInicio.format(formatter);
+	String fechaF = fechaLocalDateFin.format(formatter);
+	String fechaA = fechaLocalDateAlta.format(formatter);
 	
 %>
 <div class="card mb-3" >

@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
-<%@page import="datatypes.DtInscripcionEd"%>
-<%@page import="datatypes.EstadoInscripcion"%>
+
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
-
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="publicadores.EstadoInscripcion"%>
+<%@page import="publicadores.DtInscripcionEd"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,13 +23,13 @@
 <br>
 <div class = container mt-4>
 <%
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	String nombreCurso = request.getParameter("nombreCurso");
 	String nombreInstituto = request.getParameter("nombreInstituto");
 	String nombreEdicion = request.getParameter("nombreEdicion");
 	
-	List<DtInscripcionEd> inscripciones = iconCur.obtenerInscripcionesEd(nombreInstituto, nombreCurso, nombreEdicion);
+	DtInscripcionEd[] inscripciones = port.obtenerInscripcionesEd(nombreInstituto, nombreCurso, nombreEdicion);
 %>
 <%if(request.getAttribute("exito") != null){%>
   <div class="alert alert-info">${exito}</div>
@@ -47,22 +52,26 @@
   			</thead>
   			<tbody>
     			<%
-    				for(DtInscripcionEd dtied: inscripciones){
+    				for(int i = 0; i < inscripciones.length; i++){
     			%>
     			<tr>
-      				<th scope="row"><%=dtied.getNicknameEstudiante()%></th>
+      				<th scope="row"><%=inscripciones[i].getNicknameEstudiante()%></th>
       					
       					<%
       					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-						String fecha = dtied.getFecha().format(formatter);
+      					/*CALENDAR TO LOCALDATE*/
+      					Calendar calendar = inscripciones[i].getFecha();
+      					LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+      					/*CALENDAR TO LOCALDATE*/
+      					String fecha = fechaLocalDate.format(formatter);
 						%>
       					
       					<td><%=fecha%></td>
-      					<%if(dtied.getEstado().equals(EstadoInscripcion.Aceptado)){ %>
+      					<%if(inscripciones[i].getEstado().equals(EstadoInscripcion.Aceptado)){ %>
       						<td><span class="badge badge-pill badge-success">Aceptado</span></td>
       					<%
       					}
-      					else if(dtied.getEstado().equals(EstadoInscripcion.Rechazado)){%>
+      					else if(inscripciones[i].getEstado().equals(EstadoInscripcion.Rechazado)){%>
       						<td><span class="badge badge-pill badge-danger">Rechazado</span></td>
       					<%} 
       					else
@@ -71,8 +80,8 @@
       					<%}
       					%>
       					<td>
-      					 	<a href="seleccionarEstudianteEd?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>&nicknameEstudiante=<%=dtied.getNicknameEstudiante()%>&estado=<%="aceptar"%>" class="btn btn-info" role="button">Aceptar</a>
-      						<a href="seleccionarEstudianteEd?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>&nicknameEstudiante=<%=dtied.getNicknameEstudiante()%>&estado=<%="rechazar"%>" class="btn btn-danger" role="button">Rechazar</a>
+      					 	<a href="seleccionarEstudianteEd?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>&nicknameEstudiante=<%=inscripciones[i].getNicknameEstudiante()%>&estado=<%="aceptar"%>" class="btn btn-info" role="button">Aceptar</a>
+      						<a href="seleccionarEstudianteEd?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>&nicknameEstudiante=<%=inscripciones[i].getNicknameEstudiante()%>&estado=<%="rechazar"%>" class="btn btn-danger" role="button">Rechazar</a>
       					</td>
     			</tr>
     			<%

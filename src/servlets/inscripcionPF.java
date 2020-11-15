@@ -2,6 +2,8 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -49,13 +51,18 @@ public class inscripcionPF extends HttpServlet {
 		IControladorCurso iconCur = fab.getIControladorCurso();
 		
 		DtProgramaFormacion programa = iconCur.ConsultaProgramaFormacion(nombrePrograma);
-		LocalDate fechaI = programa.getFechaInicio();
-		LocalDate fechaF = programa.getFechaFin();
+		Calendar fechaI = programa.getFechaInicio();
+		Calendar fechaF = programa.getFechaFin();
 		
+		/*CALENDAR TO LOCALDATE*/
+		Calendar calendarI = fechaI;
+		LocalDate fechaLocalDateI = LocalDateTime.ofInstant(calendarI.toInstant(), calendarI.getTimeZone().toZoneId()).toLocalDate();
+		Calendar calendarF = fechaF;
+		LocalDate fechaLocalDateF = LocalDateTime.ofInstant(calendarF.toInstant(), calendarF.getTimeZone().toZoneId()).toLocalDate();
 		RequestDispatcher rd;
+		/*CALENDAR TO LOCALDATE*/
 		
-		
-		if(fechaInscripcion.isAfter(fechaI) && fechaInscripcion.isBefore(fechaF)) {
+		if(fechaInscripcion.isAfter(fechaLocalDateI) && fechaInscripcion.isBefore(fechaLocalDateF)) {
 		
 					try{
 						iconCur.InscripcionaProgramaFormacion(fechaInscripcion, nicknameEstudiante, nombrePrograma);

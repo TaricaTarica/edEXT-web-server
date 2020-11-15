@@ -2,9 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@page import="interfaces.Fabrica"%>
 <%@page import="interfaces.IControladorCurso"%>
+<%@page import="interfaces.IControladorUsuario"%>
 <%@page import="datatypes.DtinfoEdicion"%>
 <%@page import="datatypes.DtEdicion"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -29,9 +34,17 @@ if(request.getParameter ("nombreEdicion") != null){ %>
 	DtinfoEdicion infoEdicion = iconCur.ConsultaEdicion(nombreInstituto, nombreCurso, nombreEdicion);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fechaI = infoEdicion.getfechaInicio().format(formatter);
-	String fechaF = infoEdicion.getfechaFin().format(formatter);
-	String fechaP = infoEdicion.getFechaPub().format(formatter);
+	/*CALENDAR TO LOCALDATE*/
+	Calendar calendarInicio = infoEdicion.getfechaInicio();
+	LocalDate fechaLocalDateInicio = LocalDateTime.ofInstant(calendarInicio.toInstant(), calendarInicio.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarFin = infoEdicion.getfechaFin();
+	LocalDate fechaLocalDateFin = LocalDateTime.ofInstant(calendarFin.toInstant(), calendarFin.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarPub= infoEdicion.getFechaPub();
+	LocalDate fechaLocalDatePub = LocalDateTime.ofInstant(calendarPub.toInstant(), calendarPub.getTimeZone().toZoneId()).toLocalDate();
+	/*CALENDAR TO LOCALDATE*/
+	String fechaI = fechaLocalDateInicio.format(formatter);
+	String fechaF = fechaLocalDateFin.format(formatter);
+	String fechaP = fechaLocalDatePub.format(formatter);
 
 %>
 <div class="card mb-3" >
@@ -114,9 +127,17 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
 	DtinfoEdicion infoEdicionCat = iconCur.ConsultaEdicionCategoria(nombreCategoria, nombreCurso, nombreEdicion);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fechaI = infoEdicionCat.getfechaInicio().format(formatter);
-	String fechaF = infoEdicionCat.getfechaFin().format(formatter);
-	String fechaP = infoEdicionCat.getFechaPub().format(formatter);
+	/*CALENDAR TO LOCALDATE*/
+	Calendar calendarInicio = infoEdicionCat.getfechaInicio();
+	LocalDate fechaLocalDateInicio = LocalDateTime.ofInstant(calendarInicio.toInstant(), calendarInicio.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarFin = infoEdicionCat.getfechaFin();
+	LocalDate fechaLocalDateFin = LocalDateTime.ofInstant(calendarFin.toInstant(), calendarFin.getTimeZone().toZoneId()).toLocalDate();
+	Calendar calendarPub= infoEdicionCat.getFechaPub();
+	LocalDate fechaLocalDatePub = LocalDateTime.ofInstant(calendarPub.toInstant(), calendarPub.getTimeZone().toZoneId()).toLocalDate();
+	/*CALENDAR TO LOCALDATE*/
+	String fechaI = fechaLocalDateInicio.format(formatter);
+	String fechaF = fechaLocalDateFin.format(formatter);
+	String fechaP = fechaLocalDatePub.format(formatter);
 	
 %>
 <div class="card mb-3" >

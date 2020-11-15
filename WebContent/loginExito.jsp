@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<%@page import="datatypes.DtUsuario"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +13,7 @@
 	<div class="alert alert-success" role="alert">
   		<h4 class="alert-heading">¡Inicio de sesión exitoso!</h4>
   			<%
-  			DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+  			publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
   			%>
   			<p>Hola <%=usr.getNombre()%>, bienvenide a edEXT.</p>
 	</div>

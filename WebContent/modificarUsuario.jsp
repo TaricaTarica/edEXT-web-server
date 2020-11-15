@@ -3,6 +3,9 @@
 <%@page import="interfaces.Fabrica"%>
 <%@page import="interfaces.IControladorCurso"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +23,12 @@ DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
 String nombre = usr.getNombre();
 String apellido = usr.getApellido();
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-String fnac = usr.getfechaNac().format(formatter);
+
+/*CALENDAR TO LOCALDATE*/
+Calendar calendar = usr.getfechaNac();
+LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+/*CALENDAR TO LOCALDATE*/
+String fnac = fechaLocalDate.format(formatter);
 String contrasenia = usr.getContrasenia();
 
 %>

@@ -7,6 +7,9 @@
 <%@page import="logica.Curso"%>
 <%@page import="logica.Edicion"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.List"%>
 
 
@@ -33,7 +36,12 @@ if(sesion.getAttribute("usuario") == null){ %>
 	DtUsuario infoUsuarioV = iconUsr.ConsultaUsuario(nombreUsuario);	
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fecha = infoUsuarioV.getfechaNac().format(formatter);
+	
+	/*CALENDAR TO LOCALDATE*/
+	Calendar calendar = infoUsuarioV.getfechaNac();
+	LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+	/*CALENDAR TO LOCALDATE*/
+	String fecha = fechaLocalDate.format(formatter);
 %>
 
 			
@@ -180,7 +188,11 @@ if(sesion.getAttribute("usuario") == null){ %>
 				DtUsuario infoUsuarioE = iconUsr.ConsultaUsuario(nombreUsuario);
 				
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-				String fecha = infoUsuarioE.getfechaNac().format(formatter);
+				/*CALENDAR TO LOCALDATE*/
+				Calendar calendar = infoUsuarioE.getfechaNac();
+				LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+				/*CALENDAR TO LOCALDATE*/
+				String fecha = fechaLocalDate.format(formatter);
 			%>
 			
 			<%
@@ -331,7 +343,11 @@ if(sesion.getAttribute("usuario") == null){ %>
 			DtUsuario infoUsuarioD = iconUsr.ConsultaUsuario(nombreUsuario);
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-			String fecha = infoUsuarioD.getfechaNac().format(formatter);
+			/*CALENDAR TO LOCALDATE*/
+			Calendar calendar = infoUsuarioD.getfechaNac();
+			LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+			/*CALENDAR TO LOCALDATE*/
+			String fecha = fechaLocalDate.format(formatter);
 			%>
 			
 			<%

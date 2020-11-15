@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +25,9 @@
     		<label for="exampleFormControlSelect1">Instituto</label>
     			<select name ="cb_Instituto" class="form-control" id="instituto">
       				<%
-      					Fabrica fab = Fabrica.getInstancia();
-      					IControladorCurso iconCur = fab.getIControladorCurso();
-      				
-      				
-      					String[] nombreInstitutos = iconCur.listarInstitutos();	
+	      				ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+						ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+	  					String[] nombreInstitutos = port.listarInstitutos();
       				
     					int i = 0;
     					while(i < nombreInstitutos.length){ %>

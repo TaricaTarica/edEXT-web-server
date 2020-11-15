@@ -2,7 +2,10 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -50,7 +53,16 @@ public class AltadeEdiciondeCurso extends HttpServlet {
 		LocalDate fechaPub = LocalDate.now();
 		LocalDate inicio =LocalDate.parse(fini, formatter);
 		LocalDate fin = LocalDate.parse(ffin, formatter);
-		DtEdicion edicion = new DtEdicion(nombre,inicio,fin,c,fechaPub);
+		
+		
+		/*LOCALDATE TO CALENDAR*/
+		Calendar fechaCalendarP = GregorianCalendar.from(fechaPub.atStartOfDay(ZoneId.systemDefault()));
+		Calendar fechaCalendarI = GregorianCalendar.from(inicio.atStartOfDay(ZoneId.systemDefault()));
+		Calendar fechaCalendarF = GregorianCalendar.from(fin.atStartOfDay(ZoneId.systemDefault()));
+		/*LOCALDATE TO CALENDAR*/
+		
+		
+		DtEdicion edicion = new DtEdicion(nombre,fechaCalendarI,fechaCalendarF,c,fechaCalendarP);
 		
 		Fabrica fab = Fabrica.getInstancia();
 		IControladorCurso iconCur = fab.getIControladorCurso();

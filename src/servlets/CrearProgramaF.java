@@ -2,7 +2,10 @@ package servlets;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,14 +45,19 @@ public class CrearProgramaF extends HttpServlet {
 		//convert String to LocalDate
 		LocalDate fi = LocalDate.parse(fIni, formatter);
 		LocalDate ff = LocalDate.parse(fFin, formatter);
-		
 		LocalDate fa = LocalDate.now();
+		
+		/*LOCALDATE TO CALENDAR*/
+		Calendar fechaCalendarI = GregorianCalendar.from(fi.atStartOfDay(ZoneId.systemDefault()));
+		Calendar fechaCalendarF = GregorianCalendar.from(ff.atStartOfDay(ZoneId.systemDefault()));
+		Calendar fechaCalendarA = GregorianCalendar.from(fa.atStartOfDay(ZoneId.systemDefault()));
+		/*LOCALDATE TO CALENDAR*/
 		
 		Fabrica fab = Fabrica.getInstancia();
 		IControladorCurso iconCur = fab.getIControladorCurso();
 		RequestDispatcher rd;
 		
-		DtProgramaFormacion pf = new DtProgramaFormacion(nombre, descripcion, fi, ff, fa);
+		DtProgramaFormacion pf = new DtProgramaFormacion(nombre, descripcion, fechaCalendarI, fechaCalendarF, fechaCalendarA);
 		
 		try {
 			iconCur.AltaCrearProgramadeFormacion(pf);

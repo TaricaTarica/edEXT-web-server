@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
-<%@page import="datatypes.DtCursoInfo"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 
 <!DOCTYPE html>
@@ -20,13 +20,13 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 	String nombreInstituto = request.getParameter ("nombreInstituto");
 	String nombreCurso = request.getParameter("nombreCurso");
 	
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
-	
-	DtCursoInfo infoCurso = iconCur.ConsultaCurso(nombreInstituto, nombreCurso);
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+
+	publicadores.DtCursoInfo infoCurso = port.consultaCurso(nombreInstituto, nombreCurso);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fecha = infoCurso.getFechaAlta().format(formatter);
+	//String fecha = infoCurso.getFechaAlta().format(formatter); no funcionan las fechas!!!
 %>
 <div class="card mb-3" >
   <div class="row no-gutters">
@@ -50,17 +50,17 @@ if(request.getParameter ("nombreInstituto") != null){ %>
       	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p>
+      	<p class="card-text"><b>Fecha de alta: </b><%=infoCurso.getFechaAlta()%></p>
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>
   </div>
 </div>
 <%
-	String[] programas = iconCur.listarProgramasAux(nombreInstituto, nombreCurso);
-	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
-	String[] categorias = iconCur.listarCategoriasC(nombreInstituto, nombreCurso);
-	String[] previas = iconCur.listarPrevias(nombreInstituto, nombreCurso);
+	String[] programas = port.listarProgramasAux(nombreInstituto, nombreCurso);
+	String[] ediciones = port.listarEdiciones(nombreInstituto, nombreCurso);
+	String[] categorias = port.listarCategoriasC(nombreInstituto, nombreCurso);
+	String[] previas = port.listarPrevias(nombreInstituto, nombreCurso);
 
 %>
 
@@ -180,15 +180,15 @@ if(request.getParameter ("nombreCategoria") != null){%>
 	String nombreCategoria = request.getParameter ("nombreCategoria");
 	String nombreCurso = request.getParameter("nombreCurso");
 	
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	
-	DtCursoInfo infoCurso = iconCur.ConsultaCursoCategoria(nombreCategoria, nombreCurso);
+	publicadores.DtCursoInfo infoCurso = port.consultaCursoCategoria(nombreCategoria, nombreCurso);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	String fecha = infoCurso.getFechaAlta().format(formatter);
+	//String fecha = infoCurso.getFechaAlta().format(formatter); no funcionan las fechas!!
 	
-	String nombreInstituto = iconCur.obtenerInstitutoCurso(nombreCurso);
+	String nombreInstituto = port.obtenerInstitutoCurso(nombreCurso);
 %>
 <div class="card mb-3" >
   <div class="row no-gutters">
@@ -212,7 +212,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
       	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p>
+      	<p class="card-text"><b>Fecha de alta: </b><%=infoCurso.getFechaAlta()%></p> <!-- aca va la variable fecha -->
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>
@@ -220,8 +220,8 @@ if(request.getParameter ("nombreCategoria") != null){%>
 </div>
 
 <%
-	String[] programas = iconCur.listarProgramasAux(nombreInstituto, nombreCurso);
-	String[] ediciones = iconCur.listarEdiciones(nombreInstituto, nombreCurso);
+	String[] programas = port.listarProgramasAux(nombreInstituto, nombreCurso);
+	String[] ediciones = port.listarEdiciones(nombreInstituto, nombreCurso);
 %> 
 
 <!--  PRUEBA VENTANAS  -->
