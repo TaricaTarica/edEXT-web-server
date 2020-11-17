@@ -5,8 +5,6 @@
 <%@page import="publicadores.ControladorUsuarioPublishService"%>
 <%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
 <%@page import="publicadores.DtUsuario"%>
-
-
 <!DOCTYPE html>
 <html>
 <head>
