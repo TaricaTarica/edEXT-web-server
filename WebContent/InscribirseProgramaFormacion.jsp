@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +23,9 @@
 		  		<div id = "programas" class="form-group">
 		    			<select name ="cb_Programa" class="form-control" id="cbprogramas">
 		      				<%
-		      					Fabrica fab = Fabrica.getInstancia();
-		      					IControladorCurso iconCur = fab.getIControladorCurso();
-		      					String[] nombreProgramas = iconCur.listarProgFormacion();	
+			      				ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+			      				ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		      					String[] nombreProgramas = port.listarProgFormacion();	
 		      				
 		    					int i = 0;
 		    					while(i < nombreProgramas.length){ %>

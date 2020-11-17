@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.rpc.ServiceException;
 
-import interfaces.Fabrica;
-import interfaces.IControladorUsuario;
+import publicadores.ControladorUsuarioPublish;
+import publicadores.ControladorUsuarioPublishService;
+import publicadores.ControladorUsuarioPublishServiceLocator;
+
 
 @WebServlet("/SeguirUsuario")
 public class SeguirUsuario extends HttpServlet {
@@ -29,18 +32,23 @@ public class SeguirUsuario extends HttpServlet {
 		String seguir = request.getParameter("nickSeguir");
 		String seguidor = request.getParameter("nickSeguidor");
 	
-		System.out.println(seguir);
-		System.out.println(seguidor);
 	
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorUsuario iconUsr = fab.getIControladorUsuario();
-		
-		iconUsr.seguirUsuario(seguidor, seguir);
+		try {
+			seguirUsuario(seguidor, seguir);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		RequestDispatcher rd;		
 		request.setAttribute("mensaje", "Se ha seguido correctamente al estudiante " + seguir );
 		rd = request.getRequestDispatcher("/notificacion.jsp");
 		rd.forward(request, response);
+	}
+	public void seguirUsuario(String seguidor, String seguir) throws Exception {
+		ControladorUsuarioPublishService cps = new ControladorUsuarioPublishServiceLocator();
+		ControladorUsuarioPublish port = cps.getControladorUsuarioPublishPort();
+		port.seguirUsuario(seguidor, seguir);
 	}
 
 }

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
+<%@page import="publicadores.ControladorUsuarioPublish"%>
+<%@page import="publicadores.ControladorUsuarioPublishService"%>
+<%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -19,17 +20,17 @@
 <div class = container mt-4>
 
 <%
-DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
 String nombre = usr.getNombre();
 String apellido = usr.getApellido();
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
 /*CALENDAR TO LOCALDATE*/
-Calendar calendar = usr.getfechaNac();
+Calendar calendar = usr.getFechaNac();
 LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
 /*CALENDAR TO LOCALDATE*/
 String fnac = fechaLocalDate.format(formatter);
 String contrasenia = usr.getContrasenia();
+
 
 %>
 

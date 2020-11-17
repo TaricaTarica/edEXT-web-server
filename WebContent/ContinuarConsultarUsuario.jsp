@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorUsuario"%>
-<%@page import="datatypes.DtUsuario"%>
-<%@page import="logica.Instituto"%>
-<%@page import="logica.Curso"%>
-<%@page import="logica.Edicion"%>
+<%@page import="publicadores.ControladorUsuarioPublish"%>
+<%@page import="publicadores.ControladorUsuarioPublishService"%>
+<%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -25,20 +22,20 @@
 <div class="container" mt-4="">
 <form action="SeguirUsuario" method="post">
 <%
-Fabrica fab = Fabrica.getInstancia();
-		IControladorUsuario iconUsr = fab.getIControladorUsuario();
-		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+	ControladorUsuarioPublishService cpus = new ControladorUsuarioPublishServiceLocator();
+	ControladorUsuarioPublish port = cpus.getControladorUsuarioPublishPort();
+	publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
 %>		
 <%
 if(sesion.getAttribute("usuario") == null){ %>
 <%
 	String nombreUsuario = request.getParameter ("cb_Usuario");
-	DtUsuario infoUsuarioV = iconUsr.ConsultaUsuario(nombreUsuario);	
+	publicadores.DtUsuario infoUsuarioV = port.consultaUsuario(nombreUsuario);	
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	
 	/*CALENDAR TO LOCALDATE*/
-	Calendar calendar = infoUsuarioV.getfechaNac();
+	Calendar calendar = infoUsuarioV.getFechaNac();
 	LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
 	/*CALENDAR TO LOCALDATE*/
 	String fecha = fechaLocalDate.format(formatter);
@@ -46,7 +43,7 @@ if(sesion.getAttribute("usuario") == null){ %>
 
 			
 	<%
-		if(iconUsr.esEstudiante(nombreUsuario)){%>
+		if(port.esEstudiante(nombreUsuario)){%>
 			<div class="card mb-3">
 			  <div class="row no-gutters">
 			    <div class="col-md-8">
@@ -62,8 +59,8 @@ if(sesion.getAttribute("usuario") == null){ %>
 			  </div>
 			</div>
 			<%
-				String[] edicionesE=iconUsr.listarEdicionesEst(nombreUsuario);
-				String[] programasE=iconUsr.listarProgramasE(nombreUsuario);
+				String[] edicionesE=port.listarEdicionesEst(nombreUsuario);
+				String[] programasE=port.listarProgramasE(nombreUsuario);
 			%>
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 					<li class="nav-item">
@@ -89,12 +86,12 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesE[i]%></p>
 					  						<%
 					  							String nombreEdicion=edicionesE[i];
-					  							Edicion ed=iconUsr.ObtenerEdicion(nombreEdicion, nombreUsuario);
-					  							String Docente=ed.nombresDocente();
-					  							Instituto instituto=iconUsr.GetInstituto(Docente);
+					  							publicadores.Edicion ed=port.obtenerEdicion(nombreEdicion, nombreUsuario);
+					  							String Docente = port.nombresDocente(ed);
+					  							publicadores.Instituto instituto=port.getInstituto(Docente);
 					  							String nombreInstituto=instituto.getNombre();
-					  							List<Curso> cursos=instituto.getCursos();
-					  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+					  							publicadores.Curso[] cursos=port.getCursos(instituto);
+					  							String nombreCurso=port.getCurso(nombreEdicion, cursos);
 					  						%>
 											 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesE[i]%>" class="btn btn-primary">Ver información</a>	
 										</li>
@@ -137,13 +134,13 @@ if(sesion.getAttribute("usuario") == null){ %>
 				      	<p class="card-text"><b>Apellido: </b><%=infoUsuarioV.getApellido()%></p>
 						<p class="card-text"><b>Correo: </b><%=infoUsuarioV.getCorreo()%></p>
 						<p class="card-text"><b>Fecha de Nacimiento: </b><%=fecha%></p>
-						<p class="card-text"><b>Instituto: </b><%=iconUsr.GetInstituto(infoUsuarioV.getNickname()).getNombre()%></p>
+						<p class="card-text"><b>Instituto: </b><%=port.getInstituto(infoUsuarioV.getNickname()).getNombre()%></p>
 			      </div>
 			    </div>
 			  </div>
 			</div>
 			<%
-				String[] edicionesD=iconUsr.listarEdicionesD(nombreUsuario);
+				String[] edicionesD=port.listarEdicionesD(nombreUsuario);
 			%>
 			<ul class="nav nav-tabs" id="myTab" role="tablist">
 				<li class="nav-item">
@@ -166,10 +163,10 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesD[i]%></p>
 					  						<%
 					  							String nombreEdicion=edicionesD[i];
-					  							Instituto instituto=iconUsr.GetInstituto(nombreUsuario);
+					  							publicadores.Instituto instituto=port.getInstituto(nombreUsuario);
 					  							String nombreInstituto=instituto.getNombre();
-					  							List<Curso> cursos=instituto.getCursos();
-					  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+					  							publicadores.Curso[] cursos=port.getCursos(instituto);
+					  							String nombreCurso=port.getCurso(nombreEdicion, cursos);
 					  						%>
 											 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesD[i]%>" class="btn btn-primary">Ver información</a>	
 										</li>
@@ -182,21 +179,21 @@ if(sesion.getAttribute("usuario") == null){ %>
 		<%}%>
 			
 <%}else{
-		if(iconUsr.esEstudiante(usr.getNickname())){%>
+		if(port.esEstudiante(usr.getNickname())){%>
 			<%
 				String nombreUsuario = request.getParameter ("cb_Usuario");
-				DtUsuario infoUsuarioE = iconUsr.ConsultaUsuario(nombreUsuario);
+				publicadores.DtUsuario infoUsuarioE = port.consultaUsuario(nombreUsuario);
 				
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 				/*CALENDAR TO LOCALDATE*/
-				Calendar calendar = infoUsuarioE.getfechaNac();
+				Calendar calendar = infoUsuarioE.getFechaNac();
 				LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
 				/*CALENDAR TO LOCALDATE*/
 				String fecha = fechaLocalDate.format(formatter);
 			%>
 			
 			<%
-				if(iconUsr.esEstudiante(nombreUsuario)){%>
+				if(port.esEstudiante(nombreUsuario)){%>
 					<div class="card mb-3">
 					  <div class="row no-gutters">
 					    <div class="col-md-8">
@@ -215,8 +212,8 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  </div>
 					</div>
 					<%
-						String[] edicionesE=iconUsr.listarEdicionesEst(nombreUsuario);
-						String[] programasE=iconUsr.listarProgramasE(nombreUsuario);
+						String[] edicionesE=port.listarEdicionesEst(nombreUsuario);
+						String[] programasE=port.listarProgramasE(nombreUsuario);
 					%>
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item">
@@ -241,13 +238,13 @@ if(sesion.getAttribute("usuario") == null){ %>
 							  				for(int i = 0; i<edicionesE.length; i++){ %>
 							  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesE[i]%></p>
 							  						<%
-							  							String nombreEdicion=edicionesE[i];
-							  							Edicion ed=iconUsr.ObtenerEdicion(nombreEdicion, nombreUsuario);
-							  							String Docente=ed.nombresDocente();
-							  							Instituto instituto=iconUsr.GetInstituto(Docente);
-							  							String nombreInstituto=instituto.getNombre();
-							  							List<Curso> cursos=instituto.getCursos();
-							  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+							  						String nombreEdicion=edicionesE[i];
+						  							publicadores.Edicion ed=port.obtenerEdicion(nombreEdicion, nombreUsuario);
+						  							String Docente=port.nombresDocente(ed);
+						  							publicadores.Instituto instituto=port.getInstituto(Docente);
+						  							String nombreInstituto=instituto.getNombre();
+						  							publicadores.Curso[] cursos=port.getCursos(instituto);
+						  							String nombreCurso=port.getCurso(nombreEdicion, cursos);
 							  						%>
 													 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesE[i]%>" class="btn btn-primary">Ver información</a>	
 												</li>
@@ -290,7 +287,7 @@ if(sesion.getAttribute("usuario") == null){ %>
 						      	<p class="card-text"><b>Apellido: </b><%=infoUsuarioE.getApellido()%></p>
 								<p class="card-text"><b>Correo: </b><%=infoUsuarioE.getCorreo()%></p>
 								<p class="card-text"><b>Fecha de Nacimiento: </b><%=fecha%></p>
-								<p class="card-text"><b>Instituto: </b><%=iconUsr.GetInstituto(infoUsuarioE.getNickname()).getNombre()%></p>
+								<p class="card-text"><b>Instituto: </b><%=port.getInstituto(infoUsuarioE.getNickname()).getNombre()%></p>
 					      		<input type="hidden" name="nickSeguir" value="<%=infoUsuarioE.getNickname()%>">
 					      		<input type="hidden" name="nickSeguidor" value="<%=usr.getNickname()%>">
 					      		<button type="submit" class="btn btn-success">Seguir</button>
@@ -300,7 +297,7 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  </div>
 					</div>
 					<%
-						String[] edicionesD=iconUsr.listarEdicionesD(nombreUsuario);
+						String[] edicionesD=port.listarEdicionesD(nombreUsuario);
 					%>
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
@@ -322,10 +319,10 @@ if(sesion.getAttribute("usuario") == null){ %>
 							  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesD[i]%></p>
 							  						<%
 							  							String nombreEdicion=edicionesD[i];
-							  							Instituto instituto=iconUsr.GetInstituto(nombreUsuario);
+							  							publicadores.Instituto instituto=port.getInstituto(nombreUsuario);
 							  							String nombreInstituto=instituto.getNombre();
-							  							List<Curso> cursos=instituto.getCursos();
-							  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+							  							publicadores.Curso[] cursos=port.getCursos(instituto);
+							  							String nombreCurso=port.getCurso(nombreEdicion, cursos);
 							  						%>
 													 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesD[i]%>" class="btn btn-primary">Ver información</a>	
 												</li>
@@ -340,18 +337,18 @@ if(sesion.getAttribute("usuario") == null){ %>
 		}else{%>
 			<%
 			String nombreUsuario = request.getParameter ("cb_Usuario");
-			DtUsuario infoUsuarioD = iconUsr.ConsultaUsuario(nombreUsuario);
+			publicadores.DtUsuario infoUsuarioD = port.consultaUsuario(nombreUsuario);
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 			/*CALENDAR TO LOCALDATE*/
-			Calendar calendar = infoUsuarioD.getfechaNac();
+			Calendar calendar = infoUsuarioD.getFechaNac();
 			LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
 			/*CALENDAR TO LOCALDATE*/
 			String fecha = fechaLocalDate.format(formatter);
 			%>
 			
 			<%
-				if(iconUsr.esEstudiante(nombreUsuario)){%>
+				if(port.esEstudiante(nombreUsuario)){%>
 					<div class="card mb-3">
 					  <div class="row no-gutters">
 					    <div class="col-md-8">
@@ -370,8 +367,8 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  </div>
 					</div>
 					<%
-						String[] edicionesE=iconUsr.listarEdicionesEst(nombreUsuario);
-						String[] programasE=iconUsr.listarProgramasE(nombreUsuario);
+						String[] edicionesE=port.listarEdicionesEst(nombreUsuario);
+						String[] programasE=port.listarProgramasE(nombreUsuario);
 					%>
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item">
@@ -397,12 +394,12 @@ if(sesion.getAttribute("usuario") == null){ %>
 							  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesE[i]%></p>
 							  						<%
 							  							String nombreEdicion=edicionesE[i];
-							  							Edicion ed=iconUsr.ObtenerEdicion(nombreEdicion, nombreUsuario);
-							  							String Docente=ed.nombresDocente();
-							  							Instituto instituto=iconUsr.GetInstituto(Docente);
-							  							String nombreInstituto=instituto.getNombre();
-							  							List<Curso> cursos=instituto.getCursos();
-							  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+						  								publicadores.Edicion ed=port.obtenerEdicion(nombreEdicion, nombreUsuario);
+						  								String Docente=port.nombresDocente(ed);
+						  								publicadores.Instituto instituto=port.getInstituto(Docente);
+						  								String nombreInstituto=instituto.getNombre();
+						  								publicadores.Curso[] cursos=port.getCursos(instituto);
+						  								String nombreCurso=port.getCurso(nombreEdicion, cursos);
 							  						%>
 													 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesE[i]%>" class="btn btn-primary">Ver información</a>	
 												</li>
@@ -445,7 +442,7 @@ if(sesion.getAttribute("usuario") == null){ %>
 						      	<p class="card-text"><b>Apellido: </b><%=infoUsuarioD.getApellido()%></p>
 								<p class="card-text"><b>Correo: </b><%=infoUsuarioD.getCorreo()%></p>
 								<p class="card-text"><b>Fecha de Nacimiento: </b><%=fecha%></p>
-								<p class="card-text"><b>Instituto: </b><%=iconUsr.GetInstituto(infoUsuarioD.getNickname()).getNombre()%></p>
+								<p class="card-text"><b>Instituto: </b><%=port.getInstituto(infoUsuarioD.getNickname()).getNombre()%></p>
 					      		<input type="hidden" name="nickSeguir" value="<%=infoUsuarioD.getNickname()%>">
 					      		<input type="hidden" name="nickSeguidor" value="<%=usr.getNickname()%>">
 					      		<button type="submit" class="btn btn-success">Seguir</button>
@@ -454,7 +451,7 @@ if(sesion.getAttribute("usuario") == null){ %>
 					  </div>
 					</div>
 					<%
-						String[] edicionesD=iconUsr.listarEdicionesD(nombreUsuario);
+						String[] edicionesD=port.listarEdicionesD(nombreUsuario);
 					%>
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
@@ -477,10 +474,10 @@ if(sesion.getAttribute("usuario") == null){ %>
 							  					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=edicionesD[i]%></p>
 							  						<%
 							  							String nombreEdicion=edicionesD[i];
-							  							Instituto instituto=iconUsr.GetInstituto(nombreUsuario);
+							  							publicadores.Instituto instituto=port.getInstituto(nombreUsuario);
 							  							String nombreInstituto=instituto.getNombre();
-							  							List<Curso> cursos=instituto.getCursos();
-							  							String nombreCurso=iconUsr.GetCurso(nombreEdicion, cursos);
+							  							publicadores.Curso[]cursos=port.getCursos(instituto);
+							  							String nombreCurso=port.getCurso(nombreEdicion, cursos);
 							  						%>
 													 <a href="infoEdicion.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=edicionesD[i]%>" class="btn btn-primary">Ver información</a>	
 												</li>

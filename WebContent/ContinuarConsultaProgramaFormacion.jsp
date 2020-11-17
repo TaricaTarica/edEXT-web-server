@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
-<%@page import="datatypes.DtProgramaFormacion"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
+<%@page import="publicadores.DtProgramaFormacion"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -21,11 +22,11 @@
 if(request.getParameter ("cb_Programa") != null){ %>
 <%
 	String nombrePrograma = request.getParameter ("cb_Programa");
-
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
 	
-	DtProgramaFormacion infoPrograma = iconCur.ConsultaProgramaFormacion(nombrePrograma);
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+	
+	DtProgramaFormacion infoPrograma = port.consultaProgramaFormacion(nombrePrograma);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	
@@ -66,8 +67,8 @@ if(request.getParameter ("cb_Programa") != null){ %>
   </div>
 </div>
 <%
-	String[] cursos = iconCur.listarCursosP(nombrePrograma);
-	String[] categorias = iconCur.listarCursosCategoriasP(nombrePrograma);
+	String[] cursos = port.listarCursosP(nombrePrograma);
+	String[] categorias = port.listarCursosCategoriasP(nombrePrograma);
 %>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -95,7 +96,7 @@ if(request.getParameter ("cb_Programa") != null){ %>
   					<li class="list-group-item d-flex justify-content-between"><p class="p-0 m-0 flex-grow-1"><%=cursos[i]%></p>
   						<%
   						String nombreCurso=cursos[i];
-  						String nombreInstituto = iconCur.obtenerInstitutoCursoPrograma(nombrePrograma, nombreCurso);
+  						String nombreInstituto = port.obtenerInstitutoCursoPrograma(nombrePrograma, nombreCurso);
   						%>
   						<a href="infoCurso.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>" class="btn btn-primary">Ver información</a>	
 					</li>

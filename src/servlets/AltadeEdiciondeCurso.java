@@ -14,11 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import datatypes.DtEdicion;
-import excepciones.EdicionRepatida_Exception;
-import interfaces.Fabrica;
-import interfaces.IControladorCurso;
+import publicadores.ControladorCursoPublish;
+import publicadores.ControladorCursoPublishService;
+import publicadores.ControladorCursoPublishServiceLocator;
 
 
 @WebServlet("/AltadeEdiciondeCurso")
@@ -51,41 +49,47 @@ public class AltadeEdiciondeCurso extends HttpServlet {
 		
 		
 		LocalDate fechaPub = LocalDate.now();
+		Calendar fechaPubCalendar = GregorianCalendar.from(fechaPub.atStartOfDay(ZoneId.systemDefault()));
 		LocalDate inicio =LocalDate.parse(fini, formatter);
+		Calendar fechaIniCalendar = GregorianCalendar.from(fechaPub.atStartOfDay(ZoneId.systemDefault()));
 		LocalDate fin = LocalDate.parse(ffin, formatter);
+		Calendar fechaFinCalendar = GregorianCalendar.from(fechaPub.atStartOfDay(ZoneId.systemDefault()));
 		
-		
-		/*LOCALDATE TO CALENDAR*/
-		Calendar fechaCalendarP = GregorianCalendar.from(fechaPub.atStartOfDay(ZoneId.systemDefault()));
-		Calendar fechaCalendarI = GregorianCalendar.from(inicio.atStartOfDay(ZoneId.systemDefault()));
-		Calendar fechaCalendarF = GregorianCalendar.from(fin.atStartOfDay(ZoneId.systemDefault()));
-		/*LOCALDATE TO CALENDAR*/
-		
-		
-		DtEdicion edicion = new DtEdicion(nombre,fechaCalendarI,fechaCalendarF,c,fechaCalendarP);
-		
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorCurso iconCur = fab.getIControladorCurso();
+		publicadores.DtEdicion edicion = new publicadores.DtEdicion();
+		edicion.setNombre(nombre);
+		edicion.setFechaInicio(fechaIniCalendar);
+		edicion.setFechaFin(fechaFinCalendar);
+		edicion.setFechaPub(fechaPubCalendar);
+		edicion.setCupo(c);
 		
 		RequestDispatcher rd;
 		
 		try {
-			iconCur.AltadeEdiciondeCurso(edicion, instituto, curso);
+			altadeEdiciondeCurso(edicion, instituto, curso);
 			if(docentes != null){
 				for(int i = 0; i<docentes.length; i++) {
-					iconCur.asociarEdicion(docentes[i], edicion, instituto, curso);
+					asociarEdicion(docentes[i], edicion, instituto, curso);
 				}
 			}
 			request.setAttribute("mensaje", "Se ha registrado correctamente la edicion " + nombre );
 			rd = request.getRequestDispatcher("/notificacion.jsp");
 			rd.forward(request, response);
 		}
-		catch(EdicionRepatida_Exception e) {
+		catch(Exception e) {
 			request.setAttribute("error", e.getMessage());
 			rd = request.getRequestDispatcher("/altadeEdiciondeCurso.jsp");
 			rd.forward(request, response);
 		}
 		
 	}
-
+	public void altadeEdiciondeCurso(publicadores.DtEdicion edicion,String instituto,String curso ) throws Exception {
+		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+		ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		port.altadeEdiciondeCurso(edicion,instituto,curso);
+	}
+	public void asociarEdicion(String nombreDocentes,publicadores.DtEdicion edicion ,String instituto,String nombreCurso) throws Exception {
+		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+		ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		port.asociarEdicion(nombreDocentes,edicion, instituto, nombreCurso);
+	}
 }

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="logica.Usuario"%>
-<%@page import="logica.Docente"%>
-<%@page import="datatypes.DtDocente"%>
-<%@page import="interfaces.IControladorCurso"%>
+
+<%@page import="publicadores.DtUsuario"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 
@@ -23,8 +23,8 @@ DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
 String nickname = usr.getNickname();
 String instituto;
 
-Fabrica fab = Fabrica.getInstancia();
-IControladorCurso iconCur = fab.getIControladorCurso();
+ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	
 %>
 
@@ -39,7 +39,7 @@ IControladorCurso iconCur = fab.getIControladorCurso();
 	    		<label for="exampleFormControlSelect1">Prog. de Formación</label>
 	    			<select name="cb_Programa" class="form-control" id="programa">
 	      				<%      				
-      					String[] nombreProgramas = iconCur.listarProgFormacion();
+      					String[] nombreProgramas = port.listarProgFormacion();
     					int i = 0;
     					while(i < nombreProgramas.length){ %>
     					<option><%=nombreProgramas[i]%></option>
@@ -52,8 +52,8 @@ IControladorCurso iconCur = fab.getIControladorCurso();
 	    		<label for="exampleFormControlSelect1">Cursos</label>
 	    			<select name="cb_Curso" class="form-control" id="curso">
 	      				<%      		
-	      				instituto = iconCur.getInstitutoDocente(nickname);
-      					String[] nombreCursos = iconCur.listarCursos(instituto);
+	      				instituto = port.getInstitutoDocente(nickname);
+      					String[] nombreCursos = port.listarCursos(instituto);
     					int j = 0;
     					while(j < nombreCursos.length){ %>
     					<option><%=nombreCursos[j]%></option>

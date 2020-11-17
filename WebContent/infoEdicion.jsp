@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
-<%@page import="interfaces.IControladorUsuario"%>
-<%@page import="datatypes.DtinfoEdicion"%>
-<%@page import="datatypes.DtEdicion"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
+<%@page import="publicadores.ControladorUsuarioPublish"%>
+<%@page import="publicadores.ControladorUsuarioPublishService"%>
+<%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
+<%@page import="publicadores.DtinfoEdicion"%>
+<%@page import="publicadores.DtEdicion"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalDateTime"%>
@@ -27,17 +30,19 @@ if(request.getParameter ("nombreEdicion") != null){ %>
 	String nombreCurso = request.getParameter("nombreCurso");
 	String nombreEdicion = request.getParameter("nombreEdicion");
 	
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
-	IControladorUsuario iconUsr = fab.getIControladorUsuario();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	
-	DtinfoEdicion infoEdicion = iconCur.ConsultaEdicion(nombreInstituto, nombreCurso, nombreEdicion);
+	ControladorUsuarioPublishService cpus = new ControladorUsuarioPublishServiceLocator();
+	ControladorUsuarioPublish port2 = cpus.getControladorUsuarioPublishPort();
+	
+	publicadores.DtinfoEdicion infoEdicion = port.consultaEdicion(nombreInstituto, nombreCurso, nombreEdicion);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	/*CALENDAR TO LOCALDATE*/
-	Calendar calendarInicio = infoEdicion.getfechaInicio();
+	Calendar calendarInicio = infoEdicion.getFechaInicio();
 	LocalDate fechaLocalDateInicio = LocalDateTime.ofInstant(calendarInicio.toInstant(), calendarInicio.getTimeZone().toZoneId()).toLocalDate();
-	Calendar calendarFin = infoEdicion.getfechaFin();
+	Calendar calendarFin = infoEdicion.getFechaFin();
 	LocalDate fechaLocalDateFin = LocalDateTime.ofInstant(calendarFin.toInstant(), calendarFin.getTimeZone().toZoneId()).toLocalDate();
 	Calendar calendarPub= infoEdicion.getFechaPub();
 	LocalDate fechaLocalDatePub = LocalDateTime.ofInstant(calendarPub.toInstant(), calendarPub.getTimeZone().toZoneId()).toLocalDate();
@@ -70,8 +75,8 @@ if(request.getParameter ("nombreEdicion") != null){ %>
       	<p class="card-text"><b>Fecha de publicación: </b><%=fechaP%></p>
       	<%
       	if(sesion.getAttribute("usuario") != null){
-    		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
-      		if(!iconUsr.esEstudiante(usr.getNickname())){ %>
+      		publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
+      		if(!port2.esEstudiante(usr.getNickname())){ %>
 			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>
 			<a href="listarAceptadosEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Ver inscripciones aceptadas</a>
 			<a href="ListarInscripcionesEd.jsp?nombreInstituto=<%=nombreInstituto%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Ver inscripciones</a>								
@@ -82,7 +87,7 @@ if(request.getParameter ("nombreEdicion") != null){ %>
   </div>
 </div>
 <%
-	String[] docentes = iconCur.listarDocentes(nombreInstituto);
+	String[] docentes = port.listarDocentes(nombreInstituto);
 %>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
@@ -120,17 +125,19 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
 	String nombreIns = request.getParameter("nombreIns");
 	String nombreEdicion = request.getParameter("nombreEdicionCat");
 	
-	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
-	IControladorUsuario iconUsr = fab.getIControladorUsuario();
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	
-	DtinfoEdicion infoEdicionCat = iconCur.ConsultaEdicionCategoria(nombreCategoria, nombreCurso, nombreEdicion);
+	ControladorUsuarioPublishService cpus = new ControladorUsuarioPublishServiceLocator();
+	ControladorUsuarioPublish port2 = cpus.getControladorUsuarioPublishPort();
+	
+	publicadores.DtinfoEdicion infoEdicionCat = port.consultaEdicionCategoria(nombreCategoria, nombreCurso, nombreEdicion);
 	
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
 	/*CALENDAR TO LOCALDATE*/
-	Calendar calendarInicio = infoEdicionCat.getfechaInicio();
+	Calendar calendarInicio = infoEdicionCat.getFechaInicio();
 	LocalDate fechaLocalDateInicio = LocalDateTime.ofInstant(calendarInicio.toInstant(), calendarInicio.getTimeZone().toZoneId()).toLocalDate();
-	Calendar calendarFin = infoEdicionCat.getfechaFin();
+	Calendar calendarFin = infoEdicionCat.getFechaFin();
 	LocalDate fechaLocalDateFin = LocalDateTime.ofInstant(calendarFin.toInstant(), calendarFin.getTimeZone().toZoneId()).toLocalDate();
 	Calendar calendarPub= infoEdicionCat.getFechaPub();
 	LocalDate fechaLocalDatePub = LocalDateTime.ofInstant(calendarPub.toInstant(), calendarPub.getTimeZone().toZoneId()).toLocalDate();
@@ -163,8 +170,8 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
       	<p class="card-text"><b>Fecha de publicación: </b><%=fechaP%></p>
       	<%
       	if(sesion.getAttribute("usuario") != null){
-    		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
-      		if(!iconUsr.esEstudiante(usr.getNickname())){ %>
+    		publicadores.DtUsuario usr = (publicadores.DtUsuario) sesion.getAttribute("usuario");
+      		if(!port2.esEstudiante(usr.getNickname())){ %>
 			<a href="seleccionarEstudianteEd.jsp?nombreInstituto=<%=nombreIns%>&nombreCurso=<%=nombreCurso%>&nombreEdicion=<%=nombreEdicion%>" class="btn btn-primary" role="button">Gestionar inscripciones</a>				
 		<%}
 			} %>
@@ -173,7 +180,7 @@ if(request.getParameter ("nombreEdicionCat") != null){%>
   </div>
 </div>
 <%
-	String[] docentes = iconCur.listarDocentes(nombreIns);
+	String[] docentes = port.listarDocentes(nombreIns);
 %>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">

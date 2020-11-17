@@ -4,6 +4,11 @@
 <%@page import="publicadores.ControladorCursoPublishService"%>
 <%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
 
 <!DOCTYPE html>
 <html>
@@ -24,9 +29,13 @@ if(request.getParameter ("nombreInstituto") != null){ %>
 	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 
 	publicadores.DtCursoInfo infoCurso = port.consultaCurso(nombreInstituto, nombreCurso);
-	
+	/*ESTE MAMOTRETO ES PARA QUE LA FECHA SE VEA BIEN*/
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	//String fecha = infoCurso.getFechaAlta().format(formatter); no funcionan las fechas!!!
+	Calendar calendar = infoCurso.getFechaAlta();
+	LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+	
+	String fecha = fechaLocalDate.format(formatter);
+	
 %>
 <div class="card mb-3" >
   <div class="row no-gutters">
@@ -50,7 +59,7 @@ if(request.getParameter ("nombreInstituto") != null){ %>
       	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha de alta: </b><%=infoCurso.getFechaAlta()%></p>
+      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p>
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>
@@ -185,8 +194,12 @@ if(request.getParameter ("nombreCategoria") != null){%>
 	
 	publicadores.DtCursoInfo infoCurso = port.consultaCursoCategoria(nombreCategoria, nombreCurso);
 	
+	/*ESTE MAMOTRETO ES PARA QUE LA FECHA SE VEA BIEN*/
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/LL/yyyy");
-	//String fecha = infoCurso.getFechaAlta().format(formatter); no funcionan las fechas!!
+	Calendar calendar = infoCurso.getFechaAlta();
+	LocalDate fechaLocalDate = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+	
+	String fecha = fechaLocalDate.format(formatter);
 	
 	String nombreInstituto = port.obtenerInstitutoCurso(nombreCurso);
 %>
@@ -212,7 +225,7 @@ if(request.getParameter ("nombreCategoria") != null){%>
       	<p class="card-text"><b>Duración: </b><%=infoCurso.getDuracion()%></p>
       	<p class="card-text"><b>Cantidad de horas: </b><%=infoCurso.getCantHoras()%></p>
       	<p class="card-text"><b>Créditos: </b><%=infoCurso.getCreditos()%></p>
-      	<p class="card-text"><b>Fecha de alta: </b><%=infoCurso.getFechaAlta()%></p> <!-- aca va la variable fecha -->
+      	<p class="card-text"><b>Fecha de alta: </b><%=fecha%></p> <!-- aca va la variable fecha -->
       	<p class="card-text"><b>URL: </b><%=infoCurso.getUrl()%></p>
       	</div>
     </div>

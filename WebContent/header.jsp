@@ -4,9 +4,7 @@
 <%@page import="publicadores.ControladorUsuarioPublish"%>
 <%@page import="publicadores.ControladorUsuarioPublishService"%>
 <%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorUsuario"%>
-<%@page import="datatypes.DtUsuario"%>
+<%@page import="publicadores.DtUsuario"%>
 
 
 <!DOCTYPE html>
@@ -150,7 +148,6 @@
    								<a class="nav-link" href="consultaCurso.jsp">Consulta de Curso</a>
    								<a class="nav-link" href="consultaProgramaFormacion.jsp">Consulta de Programa de Formación</a>
    								<a class="nav-link" href="consultarUsuario.jsp">Consulta de Usuario</a>
-   								<a class="nav-link" href="agregarCursoPrograma.jsp">Agregar Curso a Programa de Formación</a>
        					 	</div>
      					</li>
       					<li class="nav-item dropdown">

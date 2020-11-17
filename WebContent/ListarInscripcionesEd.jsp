@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorCurso"%>
-<%@page import="datatypes.DtInscripcionEd"%>
-<%@page import="datatypes.EstadoInscripcion"%>
+<%@page import="publicadores.ControladorCursoPublish"%>
+<%@page import="publicadores.ControladorCursoPublishService"%>
+<%@page import="publicadores.ControladorCursoPublishServiceLocator"%>
+<%@page import="publicadores.DtInscripcionEd"%>
+<%@page import="publicadores.EstadoInscripcion"%>
 <%@page import="java.util.List"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDate"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="java.util.Calendar"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +20,13 @@
 <body>
 <br>
 <div class = container mt-4>
-<%	Fabrica fab = Fabrica.getInstancia();
-	IControladorCurso iconCur = fab.getIControladorCurso();
+<%	
+	ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+	ControladorCursoPublish port = cps.getControladorCursoPublishPort();
 	String nombreCurso = request.getParameter("nombreCurso");
 	String nombreInstituto = request.getParameter("nombreInstituto");
 	String nombreEdicion = request.getParameter("nombreEdicion");
-	List<DtInscripcionEd> inscripciones = iconCur.obtenerInscripcionesEd(nombreInstituto, nombreCurso, nombreEdicion);
+	DtInscripcionEd[] inscripciones = port.obtenerInscripcionesEd(nombreInstituto, nombreCurso, nombreEdicion);
 %>
 <form>
 		<div class="card">
@@ -38,13 +44,16 @@
   			</thead>
   			<tbody>
     			<%
-    				for(DtInscripcionEd dtied: inscripciones){
+    				for(int i = 0; i < inscripciones.length; i++){
+    					LocalDate fechaLocalDate = LocalDateTime.ofInstant(inscripciones[i].getFecha().toInstant(), inscripciones[i].getFecha().getTimeZone().toZoneId()).toLocalDate();
+    					
+    					
     			%>
     			<tr>
-      					<%if(dtied.getEstado().equals(EstadoInscripcion.Aceptado)||dtied.getEstado().equals(EstadoInscripcion.Inscripto)||dtied.getEstado().equals(EstadoInscripcion.Rechazado)){ %>
-      						<th scope="row"><%=dtied.getNicknameEstudiante()%></th>
-      						<td><%=dtied.getFecha()%></td>
-      						<td><%=dtied.getEstado()%></td>
+      					<%if(inscripciones[i].getEstado().equals(EstadoInscripcion.Aceptado)||inscripciones[i].getEstado().equals(EstadoInscripcion.Inscripto)||inscripciones[i].getEstado().equals(EstadoInscripcion.Rechazado)){ %>
+      						<th scope="row"><%=inscripciones[i].getNicknameEstudiante()%></th>
+      						<td><%=fechaLocalDate%></td>
+      						<td><%=inscripciones[i].getEstado()%></td>
       					<%
       					}
       					%>	

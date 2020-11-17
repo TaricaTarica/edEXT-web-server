@@ -13,11 +13,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.rpc.ServiceException;
 
-import datatypes.DtProgramaFormacion;
-import excepciones.CrearProgramaFormacionRepetido_Exception;
-import interfaces.Fabrica;
-import interfaces.IControladorCurso;
+import publicadores.DtProgramaFormacion;
+import publicadores.ControladorCursoPublish;
+import publicadores.ControladorCursoPublishService;
+import publicadores.ControladorCursoPublishServiceLocator;
+import publicadores.CrearProgramaFormacionRepetido_Exception;
 
 
 @WebServlet("/CrearProgramaF")
@@ -53,23 +55,33 @@ public class CrearProgramaF extends HttpServlet {
 		Calendar fechaCalendarA = GregorianCalendar.from(fa.atStartOfDay(ZoneId.systemDefault()));
 		/*LOCALDATE TO CALENDAR*/
 		
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorCurso iconCur = fab.getIControladorCurso();
 		RequestDispatcher rd;
 		
-		DtProgramaFormacion pf = new DtProgramaFormacion(nombre, descripcion, fechaCalendarI, fechaCalendarF, fechaCalendarA);
-		
+		DtProgramaFormacion pf = new DtProgramaFormacion();
+		pf.setNombre(nombre);
+		pf.setDescripcion(descripcion);
+		pf.setFechaInicio(fechaCalendarI);
+		pf.setFechaFin(fechaCalendarF);
+		pf.setFechaAlta(fechaCalendarA);
 		try {
-			iconCur.AltaCrearProgramadeFormacion(pf);
+			AltaCrearProgramadeFormacion(pf);
 		}
 		catch(CrearProgramaFormacionRepetido_Exception e) {
 			throw new ServletException(e.getMessage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		request.setAttribute("mensaje", "Se ha creado correctamente el programa " + nombre );
 		rd = request.getRequestDispatcher("/notificacion.jsp");
 		rd.forward(request, response);
 		
+	}
+	public void AltaCrearProgramadeFormacion(DtProgramaFormacion pf) throws Exception {
+		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+		ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		port.altaCrearProgramadeFormacion(pf);
 	}
 
 }

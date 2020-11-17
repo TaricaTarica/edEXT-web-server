@@ -3,8 +3,9 @@ package servlets;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,13 +14,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.rpc.ServiceException;
 
-import datatypes.DtProgramaFormacion;
-import datatypes.DtUsuario;
-import datatypes.DtinfoEdicion;
-import excepciones.InscripcionRepetidaPF_Exception;
-import interfaces.Fabrica;
-import interfaces.IControladorCurso;
+import publicadores.ControladorCursoPublish;
+import publicadores.ControladorCursoPublishService;
+import publicadores.ControladorCursoPublishServiceLocator;
+import publicadores.DtProgramaFormacion;
+import publicadores.DtUsuario;
+import publicadores.DtinfoEdicion;
+import publicadores.InscripcionRepetidaPF_Exception;
+
 
 
 @WebServlet("/inscripcionPF")
@@ -43,34 +47,38 @@ public class inscripcionPF extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombrePrograma = request.getParameter ("cb_Programa");
 		HttpSession sesion = request.getSession();
-		DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
+		publicadores.DtUsuario usr = (DtUsuario) sesion.getAttribute("usuario");
 		String nicknameEstudiante = usr.getNickname();
 		LocalDate fechaInscripcion = LocalDate.now();
+		LocalDate fechaLocalDateI = null, fechaLocalDateF = null;
 		
-		Fabrica fab = Fabrica.getInstancia();
-		IControladorCurso iconCur = fab.getIControladorCurso();
 		
-		DtProgramaFormacion programa = iconCur.ConsultaProgramaFormacion(nombrePrograma);
-		Calendar fechaI = programa.getFechaInicio();
-		Calendar fechaF = programa.getFechaFin();
-		
-		/*CALENDAR TO LOCALDATE*/
-		Calendar calendarI = fechaI;
-		LocalDate fechaLocalDateI = LocalDateTime.ofInstant(calendarI.toInstant(), calendarI.getTimeZone().toZoneId()).toLocalDate();
-		Calendar calendarF = fechaF;
-		LocalDate fechaLocalDateF = LocalDateTime.ofInstant(calendarF.toInstant(), calendarF.getTimeZone().toZoneId()).toLocalDate();
+		DtProgramaFormacion programa;
+		try {
+			programa = ConsultaProgramaFormacion(nombrePrograma);
+			Calendar fechaI = programa.getFechaInicio();
+			Calendar fechaF = programa.getFechaFin();
+			/*CALENDAR TO LOCALDATE*/
+			Calendar calendarI = fechaI;
+			fechaLocalDateI = LocalDateTime.ofInstant(calendarI.toInstant(), calendarI.getTimeZone().toZoneId()).toLocalDate();
+			Calendar calendarF = fechaF;
+			fechaLocalDateF = LocalDateTime.ofInstant(calendarF.toInstant(), calendarF.getTimeZone().toZoneId()).toLocalDate();
+			/*CALENDAR TO LOCALDATE*/
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		RequestDispatcher rd;
-		/*CALENDAR TO LOCALDATE*/
-		
 		if(fechaInscripcion.isAfter(fechaLocalDateI) && fechaInscripcion.isBefore(fechaLocalDateF)) {
 		
 					try{
-						iconCur.InscripcionaProgramaFormacion(fechaInscripcion, nicknameEstudiante, nombrePrograma);
+						Calendar fechaCalendar = GregorianCalendar.from(fechaInscripcion.atStartOfDay(ZoneId.systemDefault()));
+						InscripcionaProgramaFormacion(fechaCalendar, nicknameEstudiante, nombrePrograma);
 						request.setAttribute("mensaje", "Felicidades "+nicknameEstudiante+" te has inscrito correctamente a el programa "+nombrePrograma);
 						rd = request.getRequestDispatcher("/notificacion.jsp");
 						rd.forward(request, response);
 					}
-					catch(InscripcionRepetidaPF_Exception ex){
+					catch(Exception ex){
 						request.setAttribute("error", ex.getMessage());
 						rd = request.getRequestDispatcher("/InscribirseProgramaFormacion.jsp");
 						rd.forward(request, response);
@@ -84,6 +92,16 @@ public class inscripcionPF extends HttpServlet {
 			rd.forward(request, response);
 		}
 		
-	}	
+	}
+	public DtProgramaFormacion ConsultaProgramaFormacion(String nombrePrograma) throws Exception {
+		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+		ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		return port.consultaProgramaFormacion(nombrePrograma);
+	}
+	public void InscripcionaProgramaFormacion(Calendar fechaInscripcion, String nicknameEstudiante, String nombrePrograma) throws Exception {
+		ControladorCursoPublishService cps = new ControladorCursoPublishServiceLocator();
+		ControladorCursoPublish port = cps.getControladorCursoPublishPort();
+		port.inscripcionaProgramaFormacion(fechaInscripcion, nicknameEstudiante, nombrePrograma);
+	}
 
 }

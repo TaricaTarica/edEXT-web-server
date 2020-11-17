@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="interfaces.Fabrica"%>
-<%@page import="interfaces.IControladorUsuario"%>
+<%@page import="publicadores.ControladorUsuarioPublish"%>
+<%@page import="publicadores.ControladorUsuarioPublishService"%>
+<%@page import="publicadores.ControladorUsuarioPublishServiceLocator"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +23,9 @@
 		  		<label for="exampleFormControlSelect1">Usuarios</label>
 	    			<select name ="cb_Usuario" class="form-control" id="cbusuarios">
 	      				<%
-      					Fabrica fab = Fabrica.getInstancia();
-  						IControladorUsuario iconUsr = fab.getIControladorUsuario();
-  						String[] nombreUsuarios = iconUsr.listarUsuarios();	
+	      				ControladorUsuarioPublishService cpus = new ControladorUsuarioPublishServiceLocator();
+	      				ControladorUsuarioPublish port = cpus.getControladorUsuarioPublishPort();
+  						String[] nombreUsuarios = port.listarUsuarios();	
       				
     					int i = 0;
     					while(i < nombreUsuarios.length){ %>

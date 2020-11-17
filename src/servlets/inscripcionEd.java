@@ -24,13 +24,6 @@ import publicadores.ControladorCursoPublish;
 import publicadores.ControladorCursoPublishService;
 import publicadores.ControladorCursoPublishServiceLocator;
 
-/*import datatypes.DtUsuario;
-import datatypes.DtinfoEdicion;
-import datatypes.EstadoInscripcion;
-import excepciones.InscripcionRepetida_Exception;
-import interfaces.Fabrica;
-import interfaces.IControladorCurso;
-import logica.Edicion;*/
 
 
 @WebServlet("/inscripcionEd")
